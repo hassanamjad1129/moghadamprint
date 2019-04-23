@@ -1,0 +1,569 @@
+@import "fonts.css";
+body{
+    background-color: #f9f9f9;
+}
+.main{
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#mainMenu{
+    position: fixed;
+    float: right;
+    z-index: 999;
+    width: 20%;
+    float: right;
+    padding: 0;
+    border-left: 1px solid rgba(0,0,0,.0625);
+    height: 100%;
+}
+#rightSide{
+    background-color: #fff;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0;
+}
+
+#leftSide{
+
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    background-color: #f9fafb;
+    padding-bottom: 15px;
+    float: left;
+ }
+
+#header{
+    width : 100%;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0,0,0,.0625);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items:center;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    padding: .5rem;
+}
+
+#userProfile{
+    padding:0 0 0 20px;
+    position: relative;
+    display: inline-block;
+}
+
+#userProfile img{
+    height: 55px;
+    border-radius: 50%;
+    border :2px solid rgba(0,0,0,.0625);
+}
+
+#userProfile span{
+    font-family: 'yekan';
+    font-size: 16px;
+    color : #444;
+    margin : 10px;
+}
+
+#headerLeftSide{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+#userProfileLink:hover{
+    text-decoration: none;
+}
+.userProfileContent{
+    display: none;
+    position: absolute;
+    min-width: 180px;
+    z-index: 99;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: .25rem;
+}
+
+
+.userProfileWrap{
+    width: 100%;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+#dreawerBtn{
+    margin-right : 20px;
+    transition: all ease-in .2s;
+}
+
+#dreawerBtn i {
+    font-size : 4rem;
+    color : #4d4d4d;
+}
+.logoSection{
+    padding : 1rem ;
+    text-align: right;
+    border-bottom: 1px solid rgba(0,0,0,.0625);
+    width : 100%;
+}
+
+.logoSection img {
+    height: 66px;
+}
+
+.userProfileItem {
+    display :flex ;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.userProfileIcon {
+    color  : #555 !important;
+    font-size : 18px;
+}
+.userProfileItemLink {
+    padding  : 0 10px 0 10px;
+    transition: all ease-in .2s;
+    border-bottom: 1px solid rgba(0,0,0,.0625);
+}
+
+.userProfileItemLink:hover {
+    text-decoration: none;
+    background-color: #f7f7f7;
+
+}
+.userProfileText {
+    font-size: 13px !important;
+    direction: rtl;
+}
+
+.numberuserProfile {
+    color : #FF3333 !important;
+    direction: rtl !important;
+    font-size: .8em !important;
+}
+.drawerItem {
+    width: 100%;
+    position: relative;
+    display: inline-block;
+}
+.drawerItemLink {
+    width: 100%;
+    padding: 15px 0 15px 0 ;
+    display: flex;
+    flex-direction: row;
+    direction: rtl;
+    align-items: center;
+}
+
+.drawerItemLink:hover{
+    background-color: #f9f9f9;
+    text-decoration: none;
+
+}
+
+
+.manuItemIcon{
+    font-size: 1.8em;
+
+}
+
+.menuItemText{
+    font-family: yekan;
+    color : #444;
+    float: right;
+    position: relative;
+    font-size: .8em;
+    text-align: right;
+}
+
+.subMenuWrap {
+    display: none;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: .25rem;
+}
+
+.activeItem {
+    background-color: #f7f7f7 !important;
+}
+
+/*main styles*/
+
+.main-content{
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.0625);
+    width: 100%;
+    padding: 4rem 0 4rem 0;
+}
+
+#userProfileLink{
+    display: flex;
+    flex-direction: row;
+    padding: 10px 0 10px 0;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer !important;
+}
+
+
+#mainContent{
+width: 100%;
+}
+
+.submenuItem{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    transition: all ease-in .2s;
+    flex-direction: row;
+    cursor: pointer;
+}
+
+.submenuItem p{
+
+    padding: 20px 0 20px 0;
+    font-size: .8em;
+    font-family: yekan;
+}
+
+.submenuItem:hover{
+    background-color: #f7f7f7;
+    text-decoration: none;
+}
+
+.submenuItem:hover p{
+
+    width: 70%;
+    color : #444;
+    text-align: right;
+}
+
+.submenuIcon {
+    font-size: 1.8em;
+    width: 30%;
+    text-align: center;
+}
+
+#quikAccess {
+    width: 100%;
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+}
+.quikAccessBtn {
+    background-color: #4d4d4d;
+    box-shadow: 0 1px 1px 1px rgba(0,0,0,.12);
+    -moz-box-shadow: 0 1px 1px 1px rgba(0,0,0,.12);
+    -webkit-box-shadow: 0 1px 1px 1px rgba(0,0,0,.12);
+    -ms-box-shadow: 0 1px 1px 1px rgba(0,0,0,.12);
+    -o-box-shadow: 0 1px 1px 1px rgba(0,0,0,.12);
+    padding:.5rem 1rem .5rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all ease-in .15s;
+    border: 2px solid #4d4d4d;
+
+}
+
+.quikAccessBtn:hover{
+    background-color: #fff;
+    box-shadow: none;
+}
+
+.quikAccessBtn:hover i , .quikAccessBtn:hover span{
+    color : #4d4d4d;
+}
+
+.quikAccessBtn i{
+    color : #fff;
+    margin-left: 1rem;
+    font-size: 1rem;
+
+}
+
+.quikAccessBtn span{
+    color : #fff;
+}
+
+.quikAccessContent{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    min-width: 180px;
+    z-index: 99;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: .25rem;
+    margin: 1rem auto;
+}
+
+.quikAccessContentItem {
+    border-bottom: 1px solid rgba(0,0,0,.15);
+}
+
+.quikAccessContentItem a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: .7rem;
+    transition: all ease-in .15s;
+}
+
+.quikAccessContentItem a:hover{
+    background-color: #f7f7f7;
+}
+
+.quikAccessContentItem a:hover i {
+    color: #4d4d4d;
+}
+
+.quikAccessContentItem a:hover span {
+    color: #4d4d4d;
+}
+
+.quikAccessContentItem a i{
+    color : #4d4d4d;
+    font-size: 1rem;
+    margin:0 .2rem 0 .5rem ;
+}
+
+.quikAccessContentItem a span{
+    color : #4d4d4d;
+}
+
+.color1{
+    color : #5a5a5a;
+}
+
+.color1{
+    color : #00b3ee;
+}
+
+.color2{
+    color : #CDDC39;
+}
+
+.color3{
+    color : #2b542c;
+}
+
+.color4{
+    color : #4d4d4d;
+}
+
+.color5{
+    color : #3e8f3e;
+}
+
+.color6{
+    color : #ff4444;
+}
+
+.color7{
+    color : #00695C;
+}
+
+.color8{
+    color : #D81B60;
+}
+
+.sw-theme-circles>ul.step-anchor>li>a{
+    font-family: yekan;
+    font-size: 2rem;
+}
+
+.sw-theme-circles>ul.step-anchor>li>a>small{
+    font-size: 1.5rem;
+
+}
+
+.sw-theme-circles>ul.step-anchor>li.active>a{
+    border-color: #ff4444;
+    background-color: #ff4444;
+}
+
+.sw-theme-circles>ul.step-anchor>li.active>a>small{
+  color: #ff4444;
+
+}
+
+.sw-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.tab-content>.tab-pane{
+    visibility: visible;
+}
+
+.sw-main .sw-container {
+    margin: 1rem;
+    padding: 2rem;
+}
+
+.sw-btn-prev , .sw-btn-next {
+    background-color: #ff4444;
+    color : #fff;
+    font-family: yekan;
+    padding: 1rem 2rem 1rem 2rem;
+    transition: all ease-in .15s;
+}
+
+.btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle) {
+
+    border-radius: 2px !important;
+    margin-left: 3rem;
+}
+
+.btn-group>.btn:last-child:not(:first-child), .btn-group>.dropdown-toggle:not(:first-child) {
+    border-radius: 2px !important;
+}
+
+.wizardMultiImageSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.wizardImageItem {
+    width: 20%;
+    margin: 2rem;
+    border: 2px solid #eee;
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+
+.wizardImageItem:hover{
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.wizardImageItem img {
+    width: 100%;
+}
+
+.wizardCatSelected {
+    border: 4px solid #3e8f3e;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+#myModal1 {
+    width: 50%;
+    margin: 0 auto;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border: 2px solid #f2f2f2;
+    top:1rem;
+    position: absolute;
+    z-index: 9999;
+    left: 25%;
+    right: 25%;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+
+#modalCloseSection{
+    width: 100%;
+    border-bottom: 1px solid rgba(0,0,0,.15);
+    padding-bottom: 1rem;
+}
+
+#closeBtnMyModal {
+    background-color: #ff4444;
+    padding: .7rem 1rem .7rem 1rem;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+#closeBtnMyModal i {
+    color : #fff;
+}
+
+#myModalBody {
+    padding: 1rem;
+}
+
+#modalQuestion {
+    font-family: yekan;
+    font-size: 2rem;
+    color: #4d4d4d;
+    text-align: center;
+    padding: 2rem;
+    border-bottom: 1px solid rgba(0,0,0,.15);
+}
+
+
+#myModalBottonBtnSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.myModalBottonBtn {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.myModalBottonBtn a{
+    background-color: #ff4444;
+    padding: 1rem 1.5rem 1rem 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    border-radius: 2px;
+    border: 3px solid #ff4444;
+    transition: all ease-in .15s;
+    border-radius: 2px;
+}
+
+.myModalBottonBtn a i{
+    font-size: 2rem;
+    color :#fff;
+    margin-left: .7rem;
+}
+
+.myModalBottonBtn a span {
+    font-size: 1.4rem;
+    font-family: yekan;
+    color : #fff;
+}
+.myModalBottonBtn a:hover {
+    background-color: #fff;
+    text-decoration: none;
+}
+
+.myModalBottonBtn a:hover i{
+    color : #ff4444;
+}
+
+.myModalBottonBtn a:hover span{
+    color : #ff4444;
+}
