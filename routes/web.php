@@ -17,9 +17,9 @@ Route::get('/', function (\Illuminate\Http\Request $request) {
         $request->session()->put('welcome', 1);
         $welcome = 1;
     }
-    $slideshows=\App\slideshow::where('category_id',15)->get();
-        
-    return view('welcome', ['welcome' => $welcome,'slideshows'=>$slideshows]);
+    $slideshows = \App\slideshow::where('category_id', 15)->get();
+
+    return view('welcome', ['welcome' => $welcome, 'slideshows' => $slideshows]);
 });
 
 Route::post('/', function (\Illuminate\Http\Request $request) {
@@ -27,12 +27,12 @@ Route::post('/', function (\Illuminate\Http\Request $request) {
     $rcpt_nm = ($request->to_number);
     $param = array
     (
-            'uname' => 'مقدم چاپ',
-            'pass' => '22501792',
-            'from' => '100020400',
-            'message' => "مجتمع چاپ مقدم\nبا عرض سلام\n".$request->to_name." عزیز شما از طرف همکار گرامی ".$request->from_name." به سامانه سفارش آنلاین مجتمع مقدم چاپ دعوت شده اید\nبه همین منظور هدیه مجتمع به شما یک فرم کارت ویزیت گلاسه دورو می باشد\nبه خانواده بزرگ مقدم چاپ خوش آمدید.\nمجتمع چاپ مقدم اولین و تنها چاپخانه با ارسال رایگان در تهران\nwww.moghadamprint.com\n02126329518",
-            'to' => json_encode($rcpt_nm),
-            'op' => 'send'
+        'uname' => 'مقدم چاپ',
+        'pass' => '22501792',
+        'from' => '100020400',
+        'message' => "مجتمع چاپ مقدم\nبا عرض سلام\n" . $request->to_name . " عزیز شما از طرف همکار گرامی " . $request->from_name . " به سامانه سفارش آنلاین مجتمع مقدم چاپ دعوت شده اید\nبه همین منظور هدیه مجتمع به شما یک فرم کارت ویزیت گلاسه دورو می باشد\nبه خانواده بزرگ مقدم چاپ خوش آمدید.\nمجتمع چاپ مقدم اولین و تنها چاپخانه با ارسال رایگان در تهران\nwww.moghadamprint.com\n02126329518",
+        'to' => json_encode($rcpt_nm),
+        'op' => 'send'
     );
 
     $handler = curl_init($url);
@@ -44,17 +44,17 @@ Route::post('/', function (\Illuminate\Http\Request $request) {
     $response2 = json_decode($response2);
     $res_code = $response2[0];
     $res_data = $response2[1];
-    return redirect()->back()->withErrors(['پیامک معرفی ارسال شد'],'success');
-    
+    return redirect()->back()->withErrors(['پیامک معرفی ارسال شد'], 'success');
+
 });
 Auth::routes();
-Route::get('/logout','Auth\LoginController@logout');
+Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('representations', 'HomeController@representations');
 Route::get('contact-us', 'HomeController@contactus');
 Route::get('about-us', 'HomeController@aboutus');
 Route::get('pre-order', 'HomeController@preorder');
 Route::get('policies', 'HomeController@policies');
-Route::get('لیست-قیمت/{category}','HomeController@priceList')->name('customer.priceList');
+Route::get('لیست-قیمت/{category}', 'HomeController@priceList')->name('customer.priceList');
 
 
 Route::get('catalog', 'HomeController@catalog');
@@ -73,11 +73,10 @@ Route::get('visitCard', 'HomeController@visitCard');
 Route::get('riso', 'HomeController@riso');
 
 
-
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
 Route::group(['prefix' => 'customer', 'namespace' => 'customer', 'middleware' => 'customerMiddleware'], function () {
-   
+
     Route::get('/', 'homeController@dashboard')->name('customerDashboard');
     Route::patch('/', 'homeController@updateProfile');
     Route::post('/getSubCategories', 'homeController@getSubCategories')->name('getSubCategories');
@@ -92,12 +91,12 @@ Route::group(['prefix' => 'customer', 'namespace' => 'customer', 'middleware' =>
     Route::get('/moneybag/logs', 'moneybagController@index')->name('customer.moneybag.index');
     Route::get('inProgressOrders', 'orderController@inCompleteOrders')->name('customer.inCompleteOrders');
     Route::get('orders', 'orderController@completedOrders')->name('customer.completedOrders');
-    Route::get('order/{order}/detail','orderController@orderDetail')->name('customer.order.detail');
+    Route::get('order/{order}/detail', 'orderController@orderDetail')->name('customer.order.detail');
 
     Route::get('downloads/', 'downloadController@index')->name('customer.downloads');
     Route::get('/downloads/file/{download}', 'downloadController@downloadFile')->name('customer.downloads.file');
 
-    Route::get('gallery','galleryController@index')->name('customer.galleries');
+    Route::get('gallery', 'galleryController@index')->name('customer.galleries');
 
     Route::get('/order', 'orderController@create')->name('customer.order');
     Route::post('/order', 'orderController@store');
@@ -106,13 +105,14 @@ Route::group(['prefix' => 'customer', 'namespace' => 'customer', 'middleware' =>
     Route::post('/finalStep', 'orderController@storeOrder')->name('customer.storeOrder');
     Route::post('/verifyOrder', 'orderController@verifyOrder')->name('customer.verifyOrder');
     Route::get('/cart/{id}/remove', 'orderController@removeCart')->name('customer.removeCart');
-    
-    Route::get('order/verifyPayment','orderController@verifyPayment')->name('customer.verifyOrder');
-  
-    Route::get('/stateCity','stateCityController@index')->name('customer.state.city');
-    Route::post('/stateCity/city/ajax','stateCityController@cityAjax')->name('customer.city.ajax');
+
+    Route::get('order/verifyPayment', 'orderController@verifyPayment')->name('customer.verifyOrder');
+
+    Route::get('/stateCity', 'stateCityController@index')->name('customer.state.city');
+    Route::post('/stateCity/city/ajax', 'stateCityController@cityAjax')->name('customer.city.ajax');
     //Route::post('/stateCity/sendMethod/ajax','stateCityController@sendMethodAjax')->name('customer.sendMethod.ajax');
-    Route::post('/stateCity','stateCityController@store')->name('customer.orderStateCity.store');
+    Route::post('/stateCity', 'stateCityController@store')->name('customer.orderStateCity.store');
+    Route::get('/factor/{orderItem}', 'orderController@getFactor')->name('customer.orders.getFactor');
 });
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'adminMiddleware'], function () {
@@ -120,12 +120,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::post('/', 'homeController@updateProfile');
     Route::post('/fetchSubCategories', 'homeController@fetchSubCategories')->name('admin.fetchSubCategories');
 
-    Route::post('/checkOrders','homeController@checkOrders')->name('admin.checkOrders');
-    Route::post('/checkUsers','homeController@checkUsers')->name('admin.checkUsers');
-    Route::post('/checkTickets','homeController@checkTickets')->name('admin.checkTickets');
-  
-    Route::post('/seenNotification','homeController@seenNotification')->name('admin.seenNotification');
-  
+    Route::post('/checkOrders', 'homeController@checkOrders')->name('admin.checkOrders');
+    Route::post('/checkUsers', 'homeController@checkUsers')->name('admin.checkUsers');
+    Route::post('/checkTickets', 'homeController@checkTickets')->name('admin.checkTickets');
+
+    Route::post('/seenNotification', 'homeController@seenNotification')->name('admin.seenNotification');
+
     Route::resource('categories', 'categoryController');
     Route::resource('subCategories', 'subCategoriesController');
     Route::resource('benefits', 'benefitController');
@@ -141,10 +141,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::resource('products', 'productsController');
 
     Route::get('customers/notVerified', 'customerController@notVerified')->name('admin.customers.notVerified');
-  Route::get('customers/signup','customerController@signup');  
-  Route::post('customers/signup','customerController@storeUser');  
-  Route::resource('customers', 'customerController');
-    
+    Route::get('customers/signup', 'customerController@signup');
+    Route::post('customers/signup', 'customerController@storeUser');
+    Route::resource('customers', 'customerController');
+
     Route::get('customers/{customer}/orders', 'customerController@orders')->name('admin.customers.orders');
     Route::get('customers/{customer}/moneybag', 'customerController@moneybag')->name('admin.customers.moneybag');
     Route::post('customers/{customer}/moneybag', 'customerController@storeMoneyBag');
@@ -168,63 +168,63 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::patch('downloadCategories/{category}/edit', 'downloadController@updateCategory')->name('admin.downloads.updateCategory');
     Route::get('downloadCategories/{category}/delete', 'downloadController@deleteCategory')->name('admin.downloads.deleteCategory');
 
-    Route::get('orders/incomplete','orderController@inCompleteOrders')->name('admin.orders.incomplete');
-    Route::get('orders/complete','orderController@completedOrders')->name('admin.orders.completedOrders');
-    Route::get('order/{order}/detail','orderController@orderDetail')->name('admin.order.detail');
-    Route::post('order/{order}/detail','orderController@updateOrderDetail');
-    Route::get('order/{order}/cancel','orderController@cancelOrder')->name('admin.order.cancelOrder');
-    
-    Route::get('groupMessage','customerController@sendGroupMessage')->name('groupMessage');
-    Route::post('groupMessage','customerController@sendMessageToAll');
+    Route::get('orders/incomplete', 'orderController@inCompleteOrders')->name('admin.orders.incomplete');
+    Route::get('orders/complete', 'orderController@completedOrders')->name('admin.orders.completedOrders');
+    Route::get('order/{order}/detail', 'orderController@orderDetail')->name('admin.order.detail');
+    Route::post('order/{order}/detail', 'orderController@updateOrderDetail');
+    Route::get('order/{order}/cancel', 'orderController@cancelOrder')->name('admin.order.cancelOrder');
 
-    Route::get('priceLists','priceListController@index')->name('admin.priceLists');
-    Route::post('priceLists','priceListController@updateList')->name('admin.updateList');
-  
-    Route::get('parentSlideshows','slideshowController@index')->name('admin.slideshows');
-    Route::get('slideshows/{category}','slideshowController@management')->name('admin.slideshowManagement');
-    
-    Route::get('slideshows/{slide}/remove','slideshowController@remove')->name('admin.slideshow.remove');
-  
-    Route::get('slideshows/{category}/create','slideshowController@create')->name('admin.slideshow.create');  
-    Route::post('slideshows/{category}/create','slideshowController@store')->name('admin.slideshow.store');
-    
-    Route::get('services','serviceController@index')->name('admin.services.index');
-    Route::get('services/create','serviceController@create')->name('admin.services.create');
-    Route::post('services/create','serviceController@store')->name('admin.services.store');
-    Route::get('services/{service}/edit','serviceController@edit')->name('admin.services.edit');
-    Route::patch('services/{service}/edit','serviceController@update')->name('admin.services.update');
-    Route::delete('services/{services}','serviceController@destroy')->name('admin.services.destroy');      
-  
-    Route::get('options','optionController@index');
-    Route::post('options','optionController@update');
-   
-    Route::get('galleryCategory/create','galleryController@createCategory')->name('admin.galleryCategory.create');
-    Route::post('galleryCategory','galleryController@storeCategory')->name('admin.galleryCategory.store');
-    Route::get('galleryCategory/edit/{category}','galleryController@editCategory')->name('admin.galleryCategory.edit');
-    Route::post('galleryCategory/edit/{category}','galleryController@updateCategory')->name('admin.galleryCategory.update');
-    Route::get('galleryCategory/destroy/{category}','galleryController@destroyCategory')->name('admin.galleryCategory.destroy');
-    Route::get('galleryCategory','galleryController@indexCategory')->name('admin.galleryCategory.index');  
-  
-  
-    Route::get('gallery/create','galleryController@create')->name('admin.gallery.create');
-    Route::post('gallery','galleryController@store')->name('admin.gallery.store');
-    Route::get('gallery/edit/{gallery}','galleryController@edit')->name('admin.gallery.edit');
-    Route::post('gallery/edit/{gallery}','galleryController@update')->name('admin.gallery.update');
-    Route::get('gallery/destroy/{gallery}','galleryController@destroy')->name('admin.gallery.destroy');
-    Route::get('gallery','galleryController@index')->name('admin.gallery.index');
-  
-    Route::get('sendMethod','sendMethodController@index')->name('admin.sendMethod.index');
-    Route::get('sendMethod/create','sendMethodController@create')->name('admin.sendMethod.create');
-    Route::post('sendMethod/create','sendMethodController@store')->name('admin.sendMethod.store');
+    Route::get('groupMessage', 'customerController@sendGroupMessage')->name('groupMessage');
+    Route::post('groupMessage', 'customerController@sendMessageToAll');
+
+    Route::get('priceLists', 'priceListController@index')->name('admin.priceLists');
+    Route::post('priceLists', 'priceListController@updateList')->name('admin.updateList');
+
+    Route::get('parentSlideshows', 'slideshowController@index')->name('admin.slideshows');
+    Route::get('slideshows/{category}', 'slideshowController@management')->name('admin.slideshowManagement');
+
+    Route::get('slideshows/{slide}/remove', 'slideshowController@remove')->name('admin.slideshow.remove');
+
+    Route::get('slideshows/{category}/create', 'slideshowController@create')->name('admin.slideshow.create');
+    Route::post('slideshows/{category}/create', 'slideshowController@store')->name('admin.slideshow.store');
+
+    Route::get('services', 'serviceController@index')->name('admin.services.index');
+    Route::get('services/create', 'serviceController@create')->name('admin.services.create');
+    Route::post('services/create', 'serviceController@store')->name('admin.services.store');
+    Route::get('services/{service}/edit', 'serviceController@edit')->name('admin.services.edit');
+    Route::patch('services/{service}/edit', 'serviceController@update')->name('admin.services.update');
+    Route::delete('services/{services}', 'serviceController@destroy')->name('admin.services.destroy');
+
+    Route::get('options', 'optionController@index');
+    Route::post('options', 'optionController@update');
+
+    Route::get('galleryCategory/create', 'galleryController@createCategory')->name('admin.galleryCategory.create');
+    Route::post('galleryCategory', 'galleryController@storeCategory')->name('admin.galleryCategory.store');
+    Route::get('galleryCategory/edit/{category}', 'galleryController@editCategory')->name('admin.galleryCategory.edit');
+    Route::post('galleryCategory/edit/{category}', 'galleryController@updateCategory')->name('admin.galleryCategory.update');
+    Route::get('galleryCategory/destroy/{category}', 'galleryController@destroyCategory')->name('admin.galleryCategory.destroy');
+    Route::get('galleryCategory', 'galleryController@indexCategory')->name('admin.galleryCategory.index');
+
+
+    Route::get('gallery/create', 'galleryController@create')->name('admin.gallery.create');
+    Route::post('gallery', 'galleryController@store')->name('admin.gallery.store');
+    Route::get('gallery/edit/{gallery}', 'galleryController@edit')->name('admin.gallery.edit');
+    Route::post('gallery/edit/{gallery}', 'galleryController@update')->name('admin.gallery.update');
+    Route::get('gallery/destroy/{gallery}', 'galleryController@destroy')->name('admin.gallery.destroy');
+    Route::get('gallery', 'galleryController@index')->name('admin.gallery.index');
+
+    Route::get('sendMethod', 'sendMethodController@index')->name('admin.sendMethod.index');
+    Route::get('sendMethod/create', 'sendMethodController@create')->name('admin.sendMethod.create');
+    Route::post('sendMethod/create', 'sendMethodController@store')->name('admin.sendMethod.store');
 //     Route::post('sendMethod/city/ajax','sendMethodController@cityAjax')->name('admin.sendMethod.city.ajax');
 //     Route::post('sendMethod/show/ajax','sendMethodController@showAjax')->name('admin.sendMethod.show.ajax');
-    Route::get('sendMethod/{sendMethod}/edit','sendMethodController@edit')->name('admin.sendMethod.edit');
-    Route::patch('sendMethod/{sendMethod}/edit','sendMethodController@update')->name('admin.sendMethod.update');
-    Route::delete('sendMethod/{sendMethod}/delete','sendMethodController@delete')->name('admin.sendMethod.delete');
-  
-    Route::get('deliverie/{type?}','deliverieController@index')->name('admin.deliverie.index');
-    Route::get('deliverie/{deliverie}/detail','deliverieController@detailDeliverie')->name('admin.deliverie.detail'); 
-    Route::get('deliverie/{deliverie}/accept','deliverieController@accept')->name('admin.deliverie.accept');
+    Route::get('sendMethod/{sendMethod}/edit', 'sendMethodController@edit')->name('admin.sendMethod.edit');
+    Route::patch('sendMethod/{sendMethod}/edit', 'sendMethodController@update')->name('admin.sendMethod.update');
+    Route::delete('sendMethod/{sendMethod}/delete', 'sendMethodController@delete')->name('admin.sendMethod.delete');
+
+    Route::get('deliverie/{type?}', 'deliverieController@index')->name('admin.deliverie.index');
+    Route::get('deliverie/{deliverie}/detail', 'deliverieController@detailDeliverie')->name('admin.deliverie.detail');
+    Route::get('deliverie/{deliverie}/accept', 'deliverieController@accept')->name('admin.deliverie.accept');
 });
 
 /**

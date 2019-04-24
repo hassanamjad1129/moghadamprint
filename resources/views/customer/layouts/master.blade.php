@@ -18,33 +18,45 @@
     <link rel="stylesheet" href="/assets/css/alertify.css">
     <link rel="stylesheet" href="/assets/css/swiper.min.css">
     <style>
-      html, body {
-      position: relative;
-      height: 100%;
-    }
-      .swiper-container {
-      width: 100%;
-      height: 100%;
-    }
-    .swiper-slide {
-      text-align: center;
-      font-size: 18px;
-      background: #fff;
-      /* Center slide text vertically */
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      -webkit-box-pack: center;
-      -ms-flex-pack: center;
-      -webkit-justify-content: center;
-      justify-content: center;
-      -webkit-box-align: center;
-      -ms-flex-align: center;
-      -webkit-align-items: center;
-      align-items: center;
-    }
-  </style>
+        html, body {
+            position: relative;
+            height: 100%;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        @media print {
+            #mainMenu, #header {
+                display: none !important;
+            }
+
+            #leftSide {
+                width: 100% !important;
+            }
+        }
+    </style>
     <!--===============================================================================================-->
 </head>
 <body>
@@ -52,7 +64,7 @@
 <div class="main">
 
     <div id="mainMenu" style="display: flex; float: right;" class="col-md-2">
-        <div id="rightSide" style = "overflow-y :scroll;">
+        <div id="rightSide" style="overflow-y :scroll;">
             <div class="logoSection">
                 <img src="/assets/img/moqaddamLogo.png" alt="">
             </div>
@@ -80,7 +92,7 @@
                 <h5 style="font-weight: bold;color: #777;border: 2px solid #d6d6d6;padding: 8px"> اعتبار مجتمع
                     : <span style="color: #ff4444;">{{ number_format(auth()->user()->profile->complex_money_bag) }}
                         ریال</span></h5>
-              <h5 style="font-weight: bold;color: #777;border: 2px solid #d6d6d6;padding: 8px">بدهی
+                <h5 style="font-weight: bold;color: #777;border: 2px solid #d6d6d6;padding: 8px">بدهی
                     : <span style="color: #ff4444;">{{ number_format(auth()->user()->profile->debt) }}
                         ریال</span></h5>
                 <div id="headerLeftSide">
@@ -135,50 +147,51 @@
         </div>
     </div>
 </div>
-  
-  <div class="modal fade" id="lastModal" role="dialog" style = "background-color : rgba(0,0,0,.7)">
+
+<div class="modal fade" id="lastModal" role="dialog" style="background-color : rgba(0,0,0,.7)">
     <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 style = "text-align : center;">با تشکر</h4>
-        </div>
-        <div class="modal-body">
-         <p id="modalQuestion" style = "border : none !important; line-height : 4rem;">
-              سفارش شما با موفقیت انجام شد<br>
-            لطفا برای ثبت نهایی و پرداخت به سبد خرید خود مراجعه فرمایید.
-        </p>
-        <hr>
-          <h3 style="text-align:center">توجه : </h3>
-<h4 style="
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 style="text-align : center;">با تشکر</h4>
+            </div>
+            <div class="modal-body">
+                <p id="modalQuestion" style="border : none !important; line-height : 4rem;">
+                    سفارش شما با موفقیت انجام شد<br>
+                    لطفا برای ثبت نهایی و پرداخت به سبد خرید خود مراجعه فرمایید.
+                </p>
+                <hr>
+                <h3 style="text-align:center">توجه : </h3>
+                <h4 style="
     line-height: 35px;
-">همکار گرامی <br>در صورت بروز هرگونه مشکل در فرایند آپلود فایل با شماره های ذیل تماس حاصل فرمایید<br>02126329518 <br>02126141052</h4>
+">همکار گرامی <br>در صورت بروز هرگونه مشکل در فرایند آپلود فایل با شماره های ذیل تماس حاصل فرمایید<br>02126329518 <br>02126141052
+                </h4>
 
-        </div>
-        <div class="modal-footer">
-          <div id="myModalBottonBtnSection">
-            <div class="myModalBottonBtn">
-                <a href="{{ route('customer.order') }}">
-                    <i class="ion-refresh"></i>
-                    <span>تکرار فرایند</span>
-                </a>
             </div>
+            <div class="modal-footer">
+                <div id="myModalBottonBtnSection">
+                    <div class="myModalBottonBtn">
+                        <a href="{{ route('customer.order') }}">
+                            <i class="ion-refresh"></i>
+                            <span>تکرار فرایند</span>
+                        </a>
+                    </div>
 
-            <div class="myModalBottonBtn">
-                <a href="{{ route('customer.cart') }}">
-                    <i class="ion-eye"></i>
-                    <span>مشاهده فاکتور</span>
-                </a>
+                    <div class="myModalBottonBtn">
+                        <a href="{{ route('customer.cart') }}">
+                            <i class="ion-eye"></i>
+                            <span>مشاهده فاکتور</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
-      </div>
-      
+
     </div>
-  </div>
-  
+</div>
+
 <!--
 <div id="myModal1" style="display: none" class="animated fadeIn">
     <div id="modalCloseSection">
@@ -217,10 +230,9 @@
 
 
 <!--===============================================================================================-->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
-  
 <script>
     function handleDrawer() {
         var elm = document.getElementById("mainMenu").style.display;
@@ -228,8 +240,7 @@
             document.getElementById("mainMenu").style.display = "none";
             document.getElementById("leftSide").style.width = "100%";
 
-        }
-        else if (elm == "none") {
+        } else if (elm == "none") {
             document.getElementById("mainMenu").style.display = "flex";
             document.getElementById("leftSide").style.width = "80%";
         }
@@ -294,7 +305,7 @@
         text: txt,
         type: "success",
         confirmButtonText: 'تایید',
-        allowOutsideClick:false
+        allowOutsideClick: false
     });
             @endif
 
@@ -308,7 +319,7 @@
         text: txt,
         type: "error",
         confirmButtonText: "تایید",
-        allowOutsideClick:false
+        allowOutsideClick: false
     });
     @endif
 
@@ -316,38 +327,38 @@
 </script>
 @yield('extraScripts')
 <script src="/assets/js/main.js"></script>
-<script src="/assets/js/swiper.min.js"></script>  
-  
-  <script>
-    var swiper = new Swiper('.swiper-container', {
-      spaceBetween: 30,
-      centeredSlides: true,
-      autoplay: {
-        delay: 10000,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-    });
-  </script>
-  
-  
-<!--====== final modal black background ============-->  
+<script src="/assets/js/swiper.min.js"></script>
+
 <script>
-//  var lastmodalElem = document.getElementById("myModal1");
-//  if(lastmodalElem.style.display === "block"){
-//    $('body > * :not(#myModal1)').css("filter" , "blur(2px) !important");
-//  }
-//  else if (lastmodalElem.style.display === "none"){
-//    $('body > * :not(#myModal1)').css("filter" , "blur(0) !important");
-//  }
-    
+    var swiper = new Swiper('.swiper-container', {
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: {
+            delay: 10000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+</script>
+
+
+<!--====== final modal black background ============-->
+<script>
+    //  var lastmodalElem = document.getElementById("myModal1");
+    //  if(lastmodalElem.style.display === "block"){
+    //    $('body > * :not(#myModal1)').css("filter" , "blur(2px) !important");
+    //  }
+    //  else if (lastmodalElem.style.display === "none"){
+    //    $('body > * :not(#myModal1)').css("filter" , "blur(0) !important");
+    //  }
+
 </script>
 <!--===============================================================================================-->
 </body>

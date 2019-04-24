@@ -26,16 +26,16 @@ class orderController extends Controller
 
     public function __construct()
     {
-       
+
     }
 
     public function create()
     {
         $categories = category::where('status', 1)->get();
-        $services=service::all();
+        $services = service::all();
         return view('customer.order', [
             'categories' => $categories,
-            'services'=>$services
+            'services' => $services
         ]);
     }
 
@@ -43,17 +43,17 @@ class orderController extends Controller
     {
         $product = product::find($request->product);
         $files = subCategoryFiles::where('subcategory_id', $product->subcategory->id)->get();
-        
-        if ($request->type== 'double') {
+
+        if ($request->type == 'double') {
             foreach ($files as $file) {
-                if(!$request->session()->has('file-' . $file->id . '-front') or !$request->session()->has('file-' . $file->id . '-back')){
-                    return json_encode(1);    
+                if (!$request->session()->has('file-' . $file->id . '-front') or !$request->session()->has('file-' . $file->id . '-back')) {
+                    return json_encode(1);
                 }
             }
-        }else{
+        } else {
             foreach ($files as $file) {
-                if(!$request->session()->has('file-' . $file->id . '-front')){
-                    return json_encode(1);    
+                if (!$request->session()->has('file-' . $file->id . '-front')) {
+                    return json_encode(1);
                 }
             }
         }
@@ -61,8 +61,8 @@ class orderController extends Controller
         $item->product_id = $request->product;
         $item->user_id = auth()->user()->id;
         $item->qty = $request->qty;
-        if($request->description)
-          $item->description = $request->description;
+        if ($request->description)
+            $item->description = $request->description;
         $product = product::find($request->product);
         $files = subCategoryFiles::where('subcategory_id', $product->subcategory->id)->get();
         $x_lat = 0;
@@ -84,9 +84,9 @@ class orderController extends Controller
         }
         $item->discount = 0;
         $item->save();
-        if ($request->type== 'double') {
+        if ($request->type == 'double') {
             foreach ($files as $file) {
-               
+
                 $front = $request->session()->get('file-' . $file->id . '-front');
                 $x_lat < $front[1] ? $x_lat = $front[1] : $x_lat = $x_lat;
                 $y_lat < $front[2] ? $y_lat = $front[2] : $y_lat = $y_lat;
@@ -116,18 +116,18 @@ class orderController extends Controller
             }
         }
         $item->lats = $x_lat * $y_lat;
-        if($request->services)
-          foreach($request->services as $service){
-              $serv=service::find($service);
-              $itemService=new itemService();
-              $itemService->service_id=$service;
-              $itemService->qty=1;
-              $itemService->item_id=$item->id;
-              $itemService->price=$serv->single_price;
-              $itemService->description=$request->input('description-'.$service);
-              $itemService->save();
+        if ($request->services)
+            foreach ($request->services as $service) {
+                $serv = service::find($service);
+                $itemService = new itemService();
+                $itemService->service_id = $service;
+                $itemService->qty = 1;
+                $itemService->item_id = $item->id;
+                $itemService->price = $serv->single_price;
+                $itemService->description = $request->input('description-' . $service);
+                $itemService->save();
 
-          }
+            }
         $item->save();
         return json_encode(100);
     }
@@ -285,8 +285,8 @@ class orderController extends Controller
      *
      * @static
      * @param string $filename
-     * @throws \Exception
      * @return bool|float
+     * @throws \Exception
      */
     public static function getImageDpiFromExif($filename)
     {
@@ -341,10 +341,10 @@ class orderController extends Controller
 
     public function finalStep(Request $request)
     {
-        if($request->select)
-          $items = orderItem::whereIn('id', $request->select)->get();
+        if ($request->select)
+            $items = orderItem::whereIn('id', $request->select)->get();
         else
-          $items=[];
+            $items = [];
         return view('customer.finalStep', [
             'items' => $items
         ]);
@@ -355,40 +355,40 @@ class orderController extends Controller
         $sum = 0;
         foreach ($request->item as $value) {
             $orderItem = orderItem::find($value);
-            $price=0;
-            if($orderItem->itemServices->count())
-              foreach($orderItem->itemServices as $service){
-                $price+=$service->price*(($orderItem->lats*$orderItem->qty*$orderItem->product->subcategory->circulation)/$service->service->capacity)*$orderItem->lats*$orderItem->qty;
-              }
-            if($orderItem->speed=="fast"){
-              if($orderItem->type=="single")
-                $unitPrice=$orderItem->product->fast_single_price;
-              else
-                $unitPrice=$orderItem->product->fast_double_price;
-            }else{
-              if($orderItem->type=="single")
-                $unitPrice=$orderItem->product->single_price;
-              else
-                $unitPrice=$orderItem->product->double_price; 
+            $price = 0;
+            if ($orderItem->itemServices->count())
+                foreach ($orderItem->itemServices as $service) {
+                    $price += $service->price * (($orderItem->lats * $orderItem->qty * $orderItem->product->subcategory->circulation) / $service->service->capacity) * $orderItem->lats * $orderItem->qty;
+                }
+            if ($orderItem->speed == "fast") {
+                if ($orderItem->type == "single")
+                    $unitPrice = $orderItem->product->fast_single_price;
+                else
+                    $unitPrice = $orderItem->product->fast_double_price;
+            } else {
+                if ($orderItem->type == "single")
+                    $unitPrice = $orderItem->product->single_price;
+                else
+                    $unitPrice = $orderItem->product->double_price;
             }
-            $sum += ($unitPrice * $orderItem->lats * $orderItem->qty+$price);
-          }
+            $sum += ($unitPrice * $orderItem->lats * $orderItem->qty + $price);
+        }
         $order = new order();
         $order->user_id = auth()->user()->id;
         $order->shipping_id = null;
-        $order->delivery_address = $request->address=="office"?"تحویل در چاپخانه":auth()->user()->profile->address;
+        $order->delivery_address = $request->address == "office" ? "تحویل در چاپخانه" : auth()->user()->profile->address;
         $order->total_price = $sum;
         $order->discount = 0;
         $order->payment_method = $request->payment;
         $order->verified = 0;
         $order->save();
         foreach ($request->item as $value) {
-          $orderItem = orderItem::find($value);
-          $orderItem->order_id=$order->id;        
-          $orderItem->save();
+            $orderItem = orderItem::find($value);
+            $orderItem->order_id = $order->id;
+            $orderItem->save();
         }
         $profile = auth()->user()->profile;
-        if($profile->allow_buy==0){
+        if ($profile->allow_buy == 0) {
             if ($profile->complex_money_bag >= $sum) {
                 $profile = profile::find(auth()->user()->id);
                 $profile->decrement('complex_money_bag', $sum);
@@ -396,81 +396,80 @@ class orderController extends Controller
                 foreach ($request->item as $value) {
                     $orderItem = orderItem::find($value);
                     $orderItem->verified = 1;
-                    if($orderItem->speed=="fast"){
-                      if($orderItem->type=="single")
-                        $unitPrice=$orderItem->product->fast_single_price;
-                      else
-                        $unitPrice=$orderItem->product->fast_double_price;
-                    }else{
-                      if($orderItem->type=="single")
-                        $unitPrice=$orderItem->product->single_price;
-                      else
-                        $unitPrice=$orderItem->product->double_price; 
+                    if ($orderItem->speed == "fast") {
+                        if ($orderItem->type == "single")
+                            $unitPrice = $orderItem->product->fast_single_price;
+                        else
+                            $unitPrice = $orderItem->product->fast_double_price;
+                    } else {
+                        if ($orderItem->type == "single")
+                            $unitPrice = $orderItem->product->single_price;
+                        else
+                            $unitPrice = $orderItem->product->double_price;
                     }
-                    $orderItem->unit_price=$unitPrice;
+                    $orderItem->unit_price = $unitPrice;
                     $orderItem->save();
                 }
                 $order->verified = 1;
                 $order->save();
                 foreach ($request->item as $value) {
                     $orderItem = orderItem::find($value);
-                    $orderItem->order_id=$order->id;
-                    $orderItem->created_at=date('Y-m-d H:i:s');
+                    $orderItem->order_id = $order->id;
+                    $orderItem->created_at = date('Y-m-d H:i:s');
                     $orderItem->save();
-                    event(new verifyOrderEvent(User::find(auth()->user()->id),$orderItem));
+                    event(new verifyOrderEvent(User::find(auth()->user()->id), $orderItem));
                 }
-                
+
                 return redirect(route('customerDashboard'))->withErrors(['سفارش شما با موفقیت ثبت شد'], 'success');
-            }    
-        }
-        elseif ($request->payment == 'online') {
-          foreach ($request->item as $value) {
-            $orderItem = orderItem::find($value);
-            if($orderItem->speed=="fast"){
-              if($orderItem->type=="single")
-                $unitPrice=$orderItem->product->fast_single_price;
-              else
-                $unitPrice=$orderItem->product->fast_double_price;
-            }else{
-              if($orderItem->type=="single")
-                $unitPrice=$orderItem->product->single_price;
-              else
-                $unitPrice=$orderItem->product->double_price; 
             }
-                $orderItem->unit_price=$unitPrice;
-                  $orderItem->save();
-          }
+        } elseif ($request->payment == 'online') {
+            foreach ($request->item as $value) {
+                $orderItem = orderItem::find($value);
+                if ($orderItem->speed == "fast") {
+                    if ($orderItem->type == "single")
+                        $unitPrice = $orderItem->product->fast_single_price;
+                    else
+                        $unitPrice = $orderItem->product->fast_double_price;
+                } else {
+                    if ($orderItem->type == "single")
+                        $unitPrice = $orderItem->product->single_price;
+                    else
+                        $unitPrice = $orderItem->product->double_price;
+                }
+                $orderItem->unit_price = $unitPrice;
+                $orderItem->save();
+            }
             $results = Zarinpal::request(
                 url(route('customer.verifyOrder')),
-                $sum/10,
-    "پرداخت فاکتور شماره " . $order->id . " \n مجتمع مقدم چاپ",
-              "info@moghadampprint.com",
-              auth()->user()->profile->phone,
-              ['paymentId' => $order->id]
+                $sum / 10,
+                "پرداخت فاکتور شماره " . $order->id . " \n مجتمع مقدم چاپ",
+                "info@moghadampprint.com",
+                auth()->user()->profile->phone,
+                ['paymentId' => $order->id]
             );
-         
-          $order->authority=$results['Authority'];
-            
+
+            $order->authority = $results['Authority'];
+
             $order->save();
             Zarinpal::redirect();
-          
+
         } else {
-           foreach ($request->item as $value) {
-            $orderItem = orderItem::find($value);
-             if($orderItem->speed=="fast"){
-              if($orderItem->type=="single")
-                $unitPrice=$orderItem->product->fast_single_price;
-              else
-                $unitPrice=$orderItem->product->fast_double_price;
-            }else{
-              if($orderItem->type=="single")
-                $unitPrice=$orderItem->product->single_price;
-              else
-                $unitPrice=$orderItem->product->double_price; 
+            foreach ($request->item as $value) {
+                $orderItem = orderItem::find($value);
+                if ($orderItem->speed == "fast") {
+                    if ($orderItem->type == "single")
+                        $unitPrice = $orderItem->product->fast_single_price;
+                    else
+                        $unitPrice = $orderItem->product->fast_double_price;
+                } else {
+                    if ($orderItem->type == "single")
+                        $unitPrice = $orderItem->product->single_price;
+                    else
+                        $unitPrice = $orderItem->product->double_price;
+                }
+                $orderItem->unit_price = $unitPrice;
+                $orderItem->save();
             }
-                $orderItem->unit_price=$unitPrice;
-                  $orderItem->save();
-          }
             $profile = auth()->user()->profile;
             if ($profile->gift_money_bag >= $sum) {
                 $profile = profile::find(auth()->user()->id);
@@ -485,30 +484,30 @@ class orderController extends Controller
                 $order->save();
                 foreach ($request->item as $value) {
                     $orderItem = orderItem::find($value);
-                    $orderItem->order_id=$order->id;
-                    $orderItem->created_at=date('Y-m-d H:i:s');
+                    $orderItem->order_id = $order->id;
+                    $orderItem->created_at = date('Y-m-d H:i:s');
                     $orderItem->save();
-                    event(new verifyOrderEvent(User::find(auth()->user()->id),$orderItem));
+                    event(new verifyOrderEvent(User::find(auth()->user()->id), $orderItem));
                 }
-                
+
                 return redirect(route('customerDashboard'))->withErrors(['سفارش شما با موفقیت ثبت شد'], 'success');
             } else {
-               foreach ($request->item as $value) {
-            $orderItem = orderItem::find($value);
-                 if($orderItem->speed=="fast"){
-              if($orderItem->type=="single")
-                $unitPrice=$orderItem->product->fast_single_price;
-              else
-                $unitPrice=$orderItem->product->fast_double_price;
-            }else{
-              if($orderItem->type=="single")
-                $unitPrice=$orderItem->product->single_price;
-              else
-                $unitPrice=$orderItem->product->double_price; 
-            }
-                $orderItem->unit_price=$unitPrice;
-                  $orderItem->save();
-          }
+                foreach ($request->item as $value) {
+                    $orderItem = orderItem::find($value);
+                    if ($orderItem->speed == "fast") {
+                        if ($orderItem->type == "single")
+                            $unitPrice = $orderItem->product->fast_single_price;
+                        else
+                            $unitPrice = $orderItem->product->fast_double_price;
+                    } else {
+                        if ($orderItem->type == "single")
+                            $unitPrice = $orderItem->product->single_price;
+                        else
+                            $unitPrice = $orderItem->product->double_price;
+                    }
+                    $orderItem->unit_price = $unitPrice;
+                    $orderItem->save();
+                }
                 if ($profile->gift_money_bag + $profile->money_bag >= $sum) {
                     $sum = $sum - $profile->gift_money_bag;
                     $profile = profile::find(auth()->user()->id);
@@ -525,13 +524,13 @@ class orderController extends Controller
                     $order->save();
                     foreach ($request->item as $value) {
                         $orderItem = orderItem::find($value);
-                        $orderItem->order_id=$order->id;
-                        $orderItem->created_at=date('Y-m-d H:i:s');
+                        $orderItem->order_id = $order->id;
+                        $orderItem->created_at = date('Y-m-d H:i:s');
                         $orderItem->save();
-                        event(new verifyOrderEvent(User::find(auth()->user()->id),$orderItem));
-                      
+                        event(new verifyOrderEvent(User::find(auth()->user()->id), $orderItem));
+
                     }
-                    
+
                     return redirect(route('customerDashboard'))->withErrors(['سفارش شما با موفقیت ثبت شد'], 'success');
                 } else {
                     return redirect(route('customerDashboard'))->withErrors(['عدم موجودی ! لطفا کیف پول خود را شارژ کنید'], 'failed');
@@ -542,7 +541,7 @@ class orderController extends Controller
 
     public function inCompleteOrders()
     {
-        $orders = orderItem::where('status', '<=', 7)->where('user_id', auth()->user()->id)->where('verified',1)->orderBy('created_at','desc')->get();
+        $orders = orderItem::where('status', '<=', 7)->where('user_id', auth()->user()->id)->where('verified', 1)->orderBy('created_at', 'desc')->get();
         return view('customer.orders.incomplete', [
             'orders' => $orders
         ]);
@@ -550,7 +549,7 @@ class orderController extends Controller
 
     public function completedOrders()
     {
-        $orders = orderItem::where('status','>', 7)->where('user_id', auth()->user()->id)->where('verified',1)->orderBy('id','desc')->get();
+        $orders = orderItem::where('status', '>', 7)->where('user_id', auth()->user()->id)->where('verified', 1)->orderBy('id', 'desc')->get();
         return view('customer.orders.orders', [
             'orders' => $orders
         ]);
@@ -562,32 +561,40 @@ class orderController extends Controller
             'order' => $order
         ]);
     }
-  
-  
-    public function verifyPayment(Request $request){
-      $authority = $request->input('Authority');
-        $order = order::where('authority',$authority)->firstOrFail();
-        $response=(Zarinpal::verify('OK',$order->total_price/10,$authority));
-        if($response['Status']=='success'){
-          $order->verified=1;
-          $order->save();
-          
-          $items=orderItem::where('order_id',$order->id)->get();
-          foreach($items as $item){
-            $item->verified=1;
-            $item->created_at=date('Y-m-d H:i:s');
-            $item->save();
-            $job = (new orderSubmit($item, 1))->delay(60 * 2);
-            $this->dispatch($job);
-            $job = (new orderSubmit($item, 2))->delay(60 * 10);
-            $this->dispatch($job);
-            event(new verifyOrderEvent(User::find(auth()->user()->id),$item));
-                
-          }
-          return redirect(route('customerDashboard'))->withErrors(['پرداخت با موفقیت انجام شد'], 'success');
-        } else{
-            return redirect(route('customerDashboard'))->withErrors("خطایی در حین پرداخت رخ داده است",'failed');
+
+
+    public function verifyPayment(Request $request)
+    {
+        $authority = $request->input('Authority');
+        $order = order::where('authority', $authority)->firstOrFail();
+        $response = (Zarinpal::verify('OK', $order->total_price / 10, $authority));
+        if ($response['Status'] == 'success') {
+            $order->verified = 1;
+            $order->save();
+
+            $items = orderItem::where('order_id', $order->id)->get();
+            foreach ($items as $item) {
+                $item->verified = 1;
+                $item->created_at = date('Y-m-d H:i:s');
+                $item->save();
+                $job = (new orderSubmit($item, 1))->delay(60 * 2);
+                $this->dispatch($job);
+                $job = (new orderSubmit($item, 2))->delay(60 * 10);
+                $this->dispatch($job);
+                event(new verifyOrderEvent(User::find(auth()->user()->id), $item));
+
+            }
+            return redirect(route('customerDashboard'))->withErrors(['پرداخت با موفقیت انجام شد'], 'success');
+        } else {
+            return redirect(route('customerDashboard'))->withErrors("خطایی در حین پرداخت رخ داده است", 'failed');
         }
+    }
+
+    public function getFactor(orderItem $orderItem)
+    {
+        if ($orderItem->user_id != auth()->user()->id)
+            return abort(404);
+        return view('customer.factor', ['orderItem' => $orderItem]);
     }
 
 }

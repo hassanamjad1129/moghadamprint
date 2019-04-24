@@ -17,29 +17,30 @@ class homeController extends Controller
 {
     public function dashboard()
     {
-        $slideshows=slideshow::where('category_id',16)->get();
-        return view('customer.dashboard',['slideshows'=>$slideshows]);
+        $slideshows = slideshow::where('category_id', 16)->get();
+        return view('customer.dashboard', ['slideshows' => $slideshows]);
     }
-  
+
     private function checkIdIsUnique(int $id)
     {
         if (User::find($id))
             return true;
         return false;
     }
-  
+
     private function checkEmailIsUnique($email)
     {
-        if (User::where('email',$email)->where('id','<>',auth()->user()->id)->count())
+        if (User::where('email', $email)->where('id', '<>', auth()->user()->id)->count())
             return true;
         return false;
     }
-    
-  
-    public function updateProfile(Request $request){
+
+
+    public function updateProfile(Request $request)
+    {
         if ($this->checkEmailIsUnique($request->email))
-                return redirect()->back()->withErrors(['خطا! این ایمیل قبلا ثبت شده است'], 'failed');
-        $customer=User::find(auth()->user()->id);
+            return redirect()->back()->withErrors(['خطا! این ایمیل قبلا ثبت شده است'], 'failed');
+        $customer = User::find(auth()->user()->id);
         $profile = profile::find(auth()->user()->id);
         $customer->email = $request->email;
         if ($request->picture)
@@ -86,9 +87,9 @@ class homeController extends Controller
         */
         $product = product::find($request->product);
         $result = [];
-        $perviousFront="";
-        $perviousBack="";
-        
+        $perviousFront = "";
+        $perviousBack = "";
+
         foreach ($request->all() as $key => $item) {
 
             if ($key == 'product' or $key == 'type' or $key == 'speed' or $key == 'qty' or $key == 'product' or $key == 'subCategory') {
@@ -102,61 +103,61 @@ class homeController extends Controller
             $id = uniqid() . '.' . $item->extension();
             $image = $this->uploadFile($item, 'orders/' . auth()->user()->id, $id);
 
-           eval('$sizes='.shell_exec('exiftool -php /home/moghadamprint/public_html/moghadamprint/public/orders/'.auth()->user()->id.'/'.$id));            
-               
-if($sizes[0]['ResolutionUnit']=="cm\n"){
-              $sizes['x']=$sizes[0]['XResolution'];
-              $sizes['y']=$sizes[0]['YResolution'];
-            }else{
-              $sizes['x']=$sizes[0]['XResolution']/2.54;
-              $sizes['y']=$sizes[0]['YResolution']/2.54;
+            eval('$sizes=' . shell_exec('exiftool -php /home/moghadamprint/public_html/moghadamprint/public/orders/' . auth()->user()->id . '/' . $id));
+
+            if ($sizes[0]['ResolutionUnit'] == "cm\n") {
+                $sizes['x'] = $sizes[0]['XResolution'];
+                $sizes['y'] = $sizes[0]['YResolution'];
+            } else {
+                $sizes['x'] = $sizes[0]['XResolution'] / 2.54;
+                $sizes['y'] = $sizes[0]['YResolution'] / 2.54;
             }
             list($width, $height) = getimagesize($image);
-            $channel=getimagesize($image)['channels'];
-            if($channel==3){
-                return json_encode(3);    
+            $channel = getimagesize($image)['channels'];
+            if ($channel == 3) {
+                return json_encode(3);
             }
-            $x_lats = ceil(round($width / $sizes['x'] ,1) / ($product->x_size/10));
-            $y_lats = ceil((round($height / $sizes['y'] ,1)) / ($product->y_size/10));
-            $realWidth=round(($product->x_size*$x_lats*$sizes['x']/10));
-            $realHeight=round(($product->y_size*$y_lats*$sizes['x']/10));
-            $minimalWidth=round(300*$width/$realWidth);
-            if (!$product->allowLats or ($x_lats==1 and $y_lats==1) ) {
+            $x_lats = ceil(round($width / $sizes['x'], 1) / ($product->x_size / 10));
+            $y_lats = ceil((round($height / $sizes['y'], 1)) / ($product->y_size / 10));
+            $realWidth = round(($product->x_size * $x_lats * $sizes['x'] / 10));
+            $realHeight = round(($product->y_size * $y_lats * $sizes['x'] / 10));
+            $minimalWidth = round(300 * $width / $realWidth);
+            if (!$product->allowLats or ($x_lats == 1 and $y_lats == 1)) {
                 $request->session()->put($key, ['/orders/' . auth()->user()->id . '/' . $id, $x_lats, $y_lats]);
-                $nesbat=round($width/$height,1);
-                $nesbat3=round($realWidth/$realHeight,1);
-                $nesbat2=$realWidth/$minimalWidth;
-                
-                Image::make(($image))->resize($minimalWidth, $minimalWidth/$nesbat)->save(public_path('/orders/' . auth()->user()->id . '/'.'test-'.$id));
-                
-                 eval('$sizes=' . shell_exec('exiftool -php /home/moghadamprint/public_html/moghadamprint/public/orders/'.auth()->user()->id.'/test-'.$id));
-              if($sizes[0]['ResolutionUnit']=="cm\n"){
-                $sizes['x']=$sizes[0]['XResolution'];
-                $sizes['y']=$sizes[0]['YResolution'];
-              }else{
-                $sizes['x']=$sizes[0]['XResolution']/2.54;
-                $sizes['y']=$sizes[0]['YResolution']/2.54;
-              }
-            $sizes['x']=$sizes['x'];
-                $fileInf=explode('-',$key);
-                if($fileInf[2]=='front'){
-                  if(!$perviousFront){
-                    $file=productFile::find($fileInf[1]);
-                    $perviousFront='/orders/' . auth()->user()->id . '/test-' . $id;
-                    $result[] = [300, 300/$nesbat3, '/orders/' . auth()->user()->id . '/test-' . $id, round(((3/10) *$sizes['x']), 1), round((3/10  * $sizes['x']), 1),"",$file->front_file_label];
-                  }else{
-                    $file=productFile::find($fileInf[1]);
-                    $result[] = [300, 300/$nesbat3, '/orders/' . auth()->user()->id . '/test-' . $id, round(((3/10 ) *$sizes['x']), 1), round((3/10  * $sizes['x']), 1),$perviousFront,$file->front_file_label];  
-                  }
-                }else{
-                  if(!$perviousBack){
-                    $file=productFile::find($fileInf[1]);
-                    $perviousBack='/orders/' . auth()->user()->id . '/test-' . $id;  
-                    $result[] = [300, 300/$nesbat3, '/orders/' . auth()->user()->id . '/test-' . $id, round(((3/10 )*$sizes['x']), 1), round((3/10  * $sizes['x']), 1),"",$file->back_file_label];
-                  }else{
-                      $file=productFile::find($fileInf[1]);
-                      $result[] = [300, 300/$nesbat3, '/orders/' . auth()->user()->id . '/test-' . $id, round(((3/10 )*$sizes['x']), 1), round((3/10  * $sizes['x']), 1),$perviousBack,$file->back_file_label];
-                  }
+                $nesbat = round($width / $height, 1);
+                $nesbat3 = round($realWidth / $realHeight, 1);
+                $nesbat2 = $realWidth / $minimalWidth;
+
+                Image::make(($image))->resize($minimalWidth, $minimalWidth / $nesbat)->save(public_path('/orders/' . auth()->user()->id . '/' . 'test-' . $id));
+
+                eval('$sizes=' . shell_exec('exiftool -php /home/moghadamprint/public_html/moghadamprint/public/orders/' . auth()->user()->id . '/test-' . $id));
+                if ($sizes[0]['ResolutionUnit'] == "cm\n") {
+                    $sizes['x'] = $sizes[0]['XResolution'];
+                    $sizes['y'] = $sizes[0]['YResolution'];
+                } else {
+                    $sizes['x'] = $sizes[0]['XResolution'] / 2.54;
+                    $sizes['y'] = $sizes[0]['YResolution'] / 2.54;
+                }
+                $sizes['x'] = $sizes['x'];
+                $fileInf = explode('-', $key);
+                if ($fileInf[2] == 'front') {
+                    if (!$perviousFront) {
+                        $file = productFile::find($fileInf[1]);
+                        $perviousFront = '/orders/' . auth()->user()->id . '/test-' . $id;
+                        $result[] = [300, 300 / $nesbat3, '/orders/' . auth()->user()->id . '/test-' . $id, round(((3 / 10) * $sizes['x']), 1), round((3 / 10 * $sizes['x']), 1), "", $file->front_file_label];
+                    } else {
+                        $file = productFile::find($fileInf[1]);
+                        $result[] = [300, 300 / $nesbat3, '/orders/' . auth()->user()->id . '/test-' . $id, round(((3 / 10) * $sizes['x']), 1), round((3 / 10 * $sizes['x']), 1), $perviousFront, $file->front_file_label];
+                    }
+                } else {
+                    if (!$perviousBack) {
+                        $file = productFile::find($fileInf[1]);
+                        $perviousBack = '/orders/' . auth()->user()->id . '/test-' . $id;
+                        $result[] = [300, 300 / $nesbat3, '/orders/' . auth()->user()->id . '/test-' . $id, round(((3 / 10) * $sizes['x']), 1), round((3 / 10 * $sizes['x']), 1), "", $file->back_file_label];
+                    } else {
+                        $file = productFile::find($fileInf[1]);
+                        $result[] = [300, 300 / $nesbat3, '/orders/' . auth()->user()->id . '/test-' . $id, round(((3 / 10) * $sizes['x']), 1), round((3 / 10 * $sizes['x']), 1), $perviousBack, $file->back_file_label];
+                    }
                 }
             } else
                 return json_encode(2);
@@ -179,8 +180,8 @@ if($sizes[0]['ResolutionUnit']=="cm\n"){
                             $JFIF_Y_density = ord($bytes[10]) * 256 + ord($bytes[11]);
 
                             if ($JFIF_X_density == $JFIF_Y_density) {
-                                    $dpi = $JFIF_X_density;
-                                
+                                $dpi = $JFIF_X_density;
+
                             }
                         }
                     }
