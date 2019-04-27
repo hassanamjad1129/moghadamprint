@@ -417,6 +417,10 @@ class orderController extends Controller
                     $orderItem->order_id = $order->id;
                     $orderItem->created_at = date('Y-m-d H:i:s');
                     $orderItem->save();
+                    $job = (new orderSubmit($orderItem, 1))->delay(60 * 2);
+                    $this->dispatch($job);
+                    $job = (new orderSubmit($orderItem, 2))->delay(60 * 10);
+                    $this->dispatch($job);
                     event(new verifyOrderEvent(User::find(auth()->user()->id), $orderItem));
                 }
 
@@ -479,6 +483,10 @@ class orderController extends Controller
                     $orderItem = orderItem::find($value);
                     $orderItem->verified = 1;
                     $orderItem->save();
+                    $job = (new orderSubmit($orderItem, 1))->delay(60 * 2);
+                    $this->dispatch($job);
+                    $job = (new orderSubmit($orderItem, 2))->delay(60 * 10);
+                    $this->dispatch($job);
                 }
                 $order->verified = 1;
                 $order->save();
@@ -518,6 +526,10 @@ class orderController extends Controller
                         $orderItem = orderItem::find($value);
                         $orderItem->verified = 1;
                         $orderItem->save();
+                        $job = (new orderSubmit($orderItem, 1))->delay(60 * 2);
+                        $this->dispatch($job);
+                        $job = (new orderSubmit($orderItem, 2))->delay(60 * 10);
+                        $this->dispatch($job);
                     }
                     $order->real_price = $sum;
                     $order->verified = 1;
@@ -528,7 +540,6 @@ class orderController extends Controller
                         $orderItem->created_at = date('Y-m-d H:i:s');
                         $orderItem->save();
                         event(new verifyOrderEvent(User::find(auth()->user()->id), $orderItem));
-
                     }
 
                     return redirect(route('customerDashboard'))->withErrors(['سفارش شما با موفقیت ثبت شد'], 'success');
@@ -563,6 +574,10 @@ class orderController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function verifyPayment(Request $request)
     {
         $authority = $request->input('Authority');

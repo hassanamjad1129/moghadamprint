@@ -22,6 +22,11 @@ class orderSubmit implements ShouldQueue
     protected $order;
     protected $type;
 
+    /**
+     * orderSubmit constructor.
+     * @param orderItem $order
+     * @param int $type
+     */
     public function __construct(orderItem $order, int $type)
     {
         $this->order = $order;
