@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Mockery\Exception;
 use App\Events\verifyUserEvent;
+use Morilog\Jalali\CalendarUtils;
 
 class customerController extends Controller
 {
@@ -89,9 +90,19 @@ class customerController extends Controller
         return redirect(route('customers.index'))->withErrors(['عملیات با موفقیت انجام شد'], 'success');
     }
 
-    public function orders(User $customer)
+    public function orders(User $customer, Request $request)
     {
-        $orders = orderItem::where('user_id', $customer->id)->get();
+        $orders = orderItem::where('order_items.user_id', $customer->id)->join('orders', 'orders.id', '=', 'order_items.order_id');
+
+        if ($request->has('start')) {
+            $startTime = CalendarUtils::createCarbonFromFormat('Y/m/d', $request->start)->toDateTimeString();
+            $orders = $orders->where('orders.created_at', '>=', $startTime);
+        }
+        if ($request->has('end')) {
+            $finishTime = CalendarUtils::createCarbonFromFormat('Y/m/d', $request->end)->addDays(1)->toDateTimeString();
+            $orders = $orders->where('orders.created_at', '<', $finishTime);
+        }
+        $orders = $orders->get();
         return view('admin.customers.orders', ['orders' => $orders, 'customer' => $customer]);
     }
 
@@ -132,12 +143,13 @@ class customerController extends Controller
     {
 
     }
-  
-  
-    public function loginToUserAccount(User $customer,Request $request){
-      $request->session()->put('prevUser', auth()->user()->id);
-      auth()->loginUsingId($customer->id);
-      return redirect('/customer'); 
+
+
+    public function loginToUserAccount(User $customer, Request $request)
+    {
+        $request->session()->put('prevUser', auth()->user()->id);
+        auth()->loginUsingId($customer->id);
+        return redirect('/customer');
     }
 
     public function moneybag(User $customer)
@@ -182,9 +194,9 @@ class customerController extends Controller
     private function adjustMoneyBag(User $customer, float $price, string $operation, string $description, $showMessage, $subject)
     {
         $profile = profile::find($customer->id);
-        if ($operation == "decrease"){
-          $profile->decrement($subject, $price);
-        }elseif ($operation == 'increase'){
+        if ($operation == "decrease") {
+            $profile->decrement($subject, $price);
+        } elseif ($operation == 'increase') {
             $profile->increment($subject, $price);
         }
         $profile->save();
@@ -206,21 +218,23 @@ class customerController extends Controller
         $report->showMessage = $showMessage;
         $report->save();
     }
-    
-    public function deleteUser(User $customer){
+
+    public function deleteUser(User $customer)
+    {
         $customer->delete();
-        return redirect()->back()->withErrors(['مشتری با موفقیت حذف شد'],'success');
+        return redirect()->back()->withErrors(['مشتری با موفقیت حذف شد'], 'success');
     }
-  
-    public function sendMessage(Request $request){
-      $url = "37.130.202.188/services.jspd";
+
+    public function sendMessage(Request $request)
+    {
+        $url = "37.130.202.188/services.jspd";
         $rcpt_nm = array(User::find($request->user)->profile->phone);
         $param = array
         (
             'uname' => 'مقدم چاپ',
             'pass' => '22501792',
             'from' => '100020400',
-            'message' => "مجتمع تبلیغاتی چاپ مقدم\n".$request->description,
+            'message' => "مجتمع تبلیغاتی چاپ مقدم\n" . $request->description,
             'to' => json_encode($rcpt_nm),
             'op' => 'send'
         );
@@ -234,44 +248,47 @@ class customerController extends Controller
         $response2 = json_decode($response2);
         $res_code = $response2[0];
         $res_data = $response2[1];
-        return redirect()->back()->withErrors(['پیام مورد نظر با موفقیت ارسال شد'],'success');
+        return redirect()->back()->withErrors(['پیام مورد نظر با موفقیت ارسال شد'], 'success');
     }
-    
-    public function sendGroupMessage(){
-      return view('admin.groupMessage');
+
+    public function sendGroupMessage()
+    {
+        return view('admin.groupMessage');
     }
-  
-    public function sendMessageToAll(Request $request){
-      $url = "37.130.202.188/services.jspd";
-      $rcpt_nm = (User::where('level','<>','admin')->where('active',1)->join('user_profile','user_profile.user_id','=','users.id')->pluck('user_profile.phone')->toArray());
-      $param = array
-      (
+
+    public function sendMessageToAll(Request $request)
+    {
+        $url = "37.130.202.188/services.jspd";
+        $rcpt_nm = (User::where('level', '<>', 'admin')->where('active', 1)->join('user_profile', 'user_profile.user_id', '=', 'users.id')->pluck('user_profile.phone')->toArray());
+        $param = array
+        (
             'uname' => 'مقدم چاپ',
             'pass' => '22501792',
             'from' => '100020400',
             'message' => $request->description,
             'to' => json_encode($rcpt_nm),
             'op' => 'send'
-      );
+        );
 
-      $handler = curl_init($url);
-      curl_setopt($handler, CURLOPT_CUSTOMREQUEST, "POST");
-      curl_setopt($handler, CURLOPT_POSTFIELDS, $param);
-      curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
-      $response2 = curl_exec($handler);
+        $handler = curl_init($url);
+        curl_setopt($handler, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($handler, CURLOPT_POSTFIELDS, $param);
+        curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+        $response2 = curl_exec($handler);
 
-      $response2 = json_decode($response2);
-      $res_code = $response2[0];
-      $res_data = $response2[1];
-      return redirect()->back()->withErrors(['پیام مورد نظر با موفقیت ارسال شد'],'success');
-    
+        $response2 = json_decode($response2);
+        $res_code = $response2[0];
+        $res_data = $response2[1];
+        return redirect()->back()->withErrors(['پیام مورد نظر با موفقیت ارسال شد'], 'success');
+
     }
-  
-    public function signup(Request $request){
+
+    public function signup(Request $request)
+    {
         return view('admin.customers.signup');
     }
-  
-      protected function generateCode($codeLength)
+
+    protected function generateCode($codeLength)
     {
         $min = pow(10, $codeLength);
         $max = $min * 10 - 1;
@@ -288,32 +305,33 @@ class customerController extends Controller
             return $code;
     }
 
-  
-    public function storeUser(Request $request){
-      $id = $this->user_id();
-      DB::beginTransaction();
-      try{  
-      $user = User::create([
-            'id' => $id,
-            'name' => $request->name,
-            'email' => $request->phone,
-            'password' => Hash::make("123456"),
-            'level' => 'customer'
-        ]);
-             $profile = new profile();
-        $profile->user_id = $id;
-        $profile->telephone = null;
-        $profile->phone = $request->phone;
-        $profile->address = $request->address;
-        $profile->gender = $request->gender;
-        $profile->reagent = null;
-        $profile->save();
-      event(new adminRegisterSMSEvent($user));
-      }catch(QueryException $exception){
-        DB::rollback();
-        return redirect()->back()->withErrors(['خطا! لطفا دوباره تلاش کنید'],'failed');
-      }
+
+    public function storeUser(Request $request)
+    {
+        $id = $this->user_id();
+        DB::beginTransaction();
+        try {
+            $user = User::create([
+                'id' => $id,
+                'name' => $request->name,
+                'email' => $request->phone,
+                'password' => Hash::make("123456"),
+                'level' => 'customer'
+            ]);
+            $profile = new profile();
+            $profile->user_id = $id;
+            $profile->telephone = null;
+            $profile->phone = $request->phone;
+            $profile->address = $request->address;
+            $profile->gender = $request->gender;
+            $profile->reagent = null;
+            $profile->save();
+            event(new adminRegisterSMSEvent($user));
+        } catch (QueryException $exception) {
+            DB::rollback();
+            return redirect()->back()->withErrors(['خطا! لطفا دوباره تلاش کنید'], 'failed');
+        }
         DB::commit();
-        return redirect()->back()->withErrors(['عملیات با موفقیت انجام شد'],'success');
+        return redirect()->back()->withErrors(['عملیات با موفقیت انجام شد'], 'success');
     }
 }

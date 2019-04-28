@@ -80,17 +80,6 @@
       'Purifier' => 'Mews\\Purifier\\Facades\\Purifier',
     ),
   ),
-  'morilog/jalali' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Morilog\\Jalali\\JalaliServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'jDate' => 'Morilog\\Jalali\\Facades\\jDate',
-    ),
-  ),
   'nunomaduro/collision' => 
   array (
     'providers' => 

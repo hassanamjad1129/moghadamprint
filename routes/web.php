@@ -146,6 +146,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::resource('customers', 'customerController');
 
     Route::get('customers/{customer}/orders', 'customerController@orders')->name('admin.customers.orders');
+    Route::post('customers/{customer}/orders', 'customerController@orders');
     Route::get('customers/{customer}/moneybag', 'customerController@moneybag')->name('admin.customers.moneybag');
     Route::post('customers/{customer}/moneybag', 'customerController@storeMoneyBag');
     Route::get('customers/{customer}/unblock', 'customerController@unblock')->name('admin.customers.unblock');
