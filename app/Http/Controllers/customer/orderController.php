@@ -17,6 +17,7 @@ use League\Flysystem\Exception;
 use App\Events\verifyOrderEvent;
 use App\service;
 use App\itemService;
+use Morilog\Jalali\CalendarUtils;
 use Zarinpal\Laravel\Facade\Zarinpal;
 
 use App\Http\Controllers\Controller;
@@ -558,9 +559,19 @@ class orderController extends Controller
         ]);
     }
 
-    public function completedOrders()
+    public function completedOrders(Request $request)
     {
-        $orders = orderItem::where('status', '>', 7)->where('user_id', auth()->user()->id)->where('verified', 1)->orderBy('id', 'desc')->get();
+        $orders = orderItem::where('status', '>', 7)->where('user_id', auth()->user()->id)->where('verified', 1)->orderBy('id', 'desc');
+        if ($request->has('start')) {
+            $startTime = CalendarUtils::createCarbonFromFormat('Y/m/d', $request->start)->toDateTimeString();
+            $orders = $orders->where('orders.created_at', '>=', $startTime);
+        }
+        if ($request->has('end')) {
+            $finishTime = CalendarUtils::createCarbonFromFormat('Y/m/d', $request->end)->addDays(1)->toDateTimeString();
+            $orders = $orders->where('orders.created_at', '<', $finishTime);
+        }
+
+        $orders = $orders->get();
         return view('customer.orders.orders', [
             'orders' => $orders
         ]);

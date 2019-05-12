@@ -34,9 +34,29 @@
         }
 
     </style>
+    <link rel="stylesheet" href="https://unpkg.com/persian-datepicker@1.1.5/dist/css/persian-datepicker.min.css">
 
     <h3 class="text-center" style="margin-bottom: 20px">آرشیو سفارشات</h3>
     <div class="col-md-12">
+        <div class="col-md-12" style="margin-bottom: 3rem">
+            <form action="" method="post">
+                @csrf
+                <div class="col-md-4 ">
+                    <label for="">تاریخ شروع: </label>
+                    <input type="text" name="start" value="{{ request('start')?request('start'):"" }}"
+                           class="form-control example1">
+                </div>
+                <div class="col-md-4 col-md-offset-2">
+                    <label for="">تاریخ پایان: </label>
+                    <input type="text" name="end" value="{{ request('end')?request('end'):"" }}"
+                           class="form-control example1">
+                </div>
+                <div class="col-md-2">
+                    <br>
+                    <button class="btn btn-success">گزارش گیری</button>
+                </div>
+            </form>
+        </div>
         <table class="table table-striped table-bordered table-hover">
             <thead>
             <tr>
@@ -119,4 +139,16 @@
         </table>
     </div>
 
+@endsection
+@section('extraScripts')
+    <script src="https://unpkg.com/persian-date@1.0.5/dist/persian-date.min.js"></script>
+    <script src="https://unpkg.com/persian-datepicker@1.1.5/dist/js/persian-datepicker.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".example1").pDatepicker({
+                format: 'YYYY/MM/DD',
+                initialValueType: 'persian'
+            });
+        });
+    </script>
 @endsection

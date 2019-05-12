@@ -38,6 +38,7 @@
                     <th>قیمت واحد</th>
                     <th>تخفیف</th>
                     <th>قیمت کل</th>
+                    <th>روش پرداخت</th>
                     <th>وضعیت</th>
                     <th>تاریخ سفارش</th>
                 </tr>
@@ -81,6 +82,7 @@
                         <?php $sum += (($order->unit_price - $order->discount) * $order->qty * $order->lats); ?>
                         <td>{{ number_format(($order->unit_price-$order->discount)*$order->qty*$order->lats) }}ریال
                         </td>
+                        <td>{{ $order->order->payment_method=='online'?"درگاه اینترنتی":"اعتباری" }}</td>
                         <td>
                             <?php
                             if ($order->verified == 1) {
