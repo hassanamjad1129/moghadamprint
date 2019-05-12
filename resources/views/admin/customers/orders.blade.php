@@ -114,7 +114,12 @@
                                     case 8 :
                                         echo "تحویل نهایی";
                                         break;
-
+                                    case 9:
+                                        echo ">در انتظار باربری";
+                                        break;
+                                    case 10:
+                                        echo "تحویل باربری";
+                                        break;
                                 }
                             } else {
                                 echo "در انتظار پرداخت";
