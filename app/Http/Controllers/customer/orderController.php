@@ -561,7 +561,7 @@ class orderController extends Controller
 
     public function completedOrders(Request $request)
     {
-        $orders = orderItem::where('status', '>', 7)->where('user_id', auth()->user()->id)->where('verified', 1)->orderBy('id', 'desc');
+        $orders = orderItem::where('status', '>', 7)->join('orders', 'orders.id', '=', 'order_items.order_id')->where('user_id', auth()->user()->id)->where('verified', 1)->orderBy('id', 'desc');
         if ($request->has('start')) {
             $startTime = CalendarUtils::createCarbonFromFormat('Y/m/d', $request->start)->toDateTimeString();
             $orders = $orders->where('orders.created_at', '>=', $startTime);
