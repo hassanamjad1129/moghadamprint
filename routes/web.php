@@ -91,6 +91,7 @@ Route::group(['prefix' => 'customer', 'namespace' => 'customer', 'middleware' =>
     Route::get('/moneybag/logs', 'moneybagController@index')->name('customer.moneybag.index');
     Route::get('inProgressOrders', 'orderController@inCompleteOrders')->name('customer.inCompleteOrders');
     Route::get('orders', 'orderController@completedOrders')->name('customer.completedOrders');
+    Route::post('orders', 'orderController@completedOrders');
     Route::get('order/{order}/detail', 'orderController@orderDetail')->name('customer.order.detail');
 
     Route::get('downloads/', 'downloadController@index')->name('customer.downloads');
