@@ -76,7 +76,8 @@
             </tr>
             </thead>
             <tbody>
-            <?php $i = 1 ?>
+            <?php $i = 1;
+            $sum = 0;?>
             @foreach($orders as $order)
                 <?php
                 ?>
@@ -120,6 +121,8 @@
                             }
                         echo number_format($price) . ' ریال';
                         ?></td>
+                    <?php $sum += (($order->unit_price - $order->discount) * $order->qty * $order->lats); ?>
+
                     <td>{{ number_format($order->unit_price*$order->lats*$order->qty+$price) }} ریال</td>
                     <td>
                         <span class="badge badge-success">آماده تحویل </span>
@@ -134,8 +137,17 @@
                         </div>
                     </td>
                 </tr>
+                <?php $i++; ?>
             @endforeach
             </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="2">مجموع خرید : {{ $i . " سفارش" }}</th>
+                <th colspan="3">{{ number_format($sum).' ریال' }}</th>
+                <th colspan="3">مجموع بدهی</th>
+                <th colspan="3">مجموع بدهی : {{ number_format(auth()->user()->profile->debt) }} ریال</th>
+            </tr>
+            </tfoot>
         </table>
     </div>
 

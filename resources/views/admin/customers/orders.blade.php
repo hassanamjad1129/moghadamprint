@@ -46,6 +46,7 @@
                 <tbody>
                 <?php
                 $sum = 0;
+                $i = 1;
                 ?>
                 @foreach($orders as $order)
                     <tr>
@@ -129,11 +130,12 @@
 
                         <td>{{ jdate(strtotime($order->created_at))->format('H:i | Y/m/d') }}</td>
                     </tr>
+                    <?php $i++; ?>
                 @endforeach
                 </tbody>
                 <tfoot>
                 <tr>
-                    <th colspan="2">مجموع خرید</th>
+                    <th colspan="2">مجموع خرید : {{ $i . " سفارش" }}</th>
                     <th colspan="3">{{ number_format($sum).' ریال' }}</th>
                     <th colspan="3">مجموع بدهی</th>
                     <th colspan="3">مجموع بدهی : {{ number_format($customer->profile->debt) }} ریال</th>
