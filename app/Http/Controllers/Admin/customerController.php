@@ -102,7 +102,7 @@ class customerController extends Controller
             $finishTime = CalendarUtils::createCarbonFromFormat('Y/m/d', $request->end)->addDays(1)->toDateTimeString();
             $orders = $orders->where('orders.created_at', '<', $finishTime);
         }
-        $orders = $orders->get();
+        $orders = $orders->select(['order_items.*'])->get();
         return view('admin.customers.orders', ['orders' => $orders, 'customer' => $customer]);
     }
 
