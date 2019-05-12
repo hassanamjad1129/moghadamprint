@@ -571,7 +571,7 @@ class orderController extends Controller
             $orders = $orders->where('orders.created_at', '<', $finishTime);
         }
 
-        $orders = $orders->get();
+        $orders = $orders->select(['order_items.*'])->get();
         return view('customer.orders.orders', [
             'orders' => $orders
         ]);
