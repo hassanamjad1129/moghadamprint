@@ -43,20 +43,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/admin/customers/orders.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="142" column="24" lean-forward="true" selection-start-line="135" selection-start-column="15" selection-end-line="142" selection-end-column="24" />
+            <state relative-caret-position="210">
+              <caret line="137" column="58" selection-start-line="137" selection-start-column="58" selection-end-line="137" selection-end-column="58" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/customer/orders/orders.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="316">
-              <caret line="143" column="76" selection-start-line="143" selection-start-column="76" selection-end-line="143" selection-end-column="76" />
+            <state relative-caret-position="346">
+              <caret line="144" column="54" selection-start-line="144" selection-start-column="54" selection-end-line="144" selection-end-column="54" />
             </state>
           </provider>
         </entry>
@@ -141,8 +141,8 @@
         <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/customer/orderController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/customerController.php" />
-        <option value="$PROJECT_DIR$/resources/views/admin/customers/orders.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/customer/orders/orders.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/admin/customers/orders.blade.php" />
       </list>
     </option>
   </component>
@@ -456,12 +456,12 @@
       <workItem from="1556514632668" duration="500000" />
       <workItem from="1557577510486" duration="7831000" />
       <workItem from="1557639598267" duration="35000" />
-      <workItem from="1557672950704" duration="2002000" />
+      <workItem from="1557672950704" duration="2153000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22186000" />
+    <option name="totallyTimeSpent" value="22337000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -714,17 +714,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/admin/customers/orders.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/customer/orders/orders.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="142" column="24" lean-forward="true" selection-start-line="135" selection-start-column="15" selection-end-line="142" selection-end-column="24" />
+        <state relative-caret-position="346">
+          <caret line="144" column="54" selection-start-line="144" selection-start-column="54" selection-end-line="144" selection-end-column="54" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/customer/orders/orders.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/admin/customers/orders.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="143" column="76" selection-start-line="143" selection-start-column="76" selection-end-line="143" selection-end-column="76" />
+        <state relative-caret-position="210">
+          <caret line="137" column="58" selection-start-line="137" selection-start-column="58" selection-end-line="137" selection-end-column="58" />
         </state>
       </provider>
     </entry>

@@ -142,7 +142,7 @@
             </tbody>
             <tfoot>
             <tr>
-                <th colspan="2">مجموع خرید : {{ $i . " سفارش" }}</th>
+                <th colspan="2">مجموع خرید : {{ ($i-1) . " سفارش" }}</th>
                 <th colspan="3">{{ number_format($sum).' ریال' }}</th>
                 <th colspan="3">مجموع بدهی</th>
                 <th colspan="3">مجموع بدهی : {{ number_format(auth()->user()->profile->debt) }} ریال</th>
