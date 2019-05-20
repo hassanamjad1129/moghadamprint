@@ -117,6 +117,7 @@ Route::group(['prefix' => 'customer', 'namespace' => 'customer', 'middleware' =>
 
 
     Route::get('reportOrders','orderController@orders')->name('customer.reportOrders');
+    Route::post('reportOrders','orderController@orders')->name('customer.reportOrders');
 });
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'adminMiddleware'], function () {
