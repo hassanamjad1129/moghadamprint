@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('customer.layouts.master')
 @section('content')
     <link rel="stylesheet" href="https://unpkg.com/persian-datepicker@1.1.5/dist/css/persian-datepicker.min.css">
 
