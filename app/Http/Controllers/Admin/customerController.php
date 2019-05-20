@@ -234,7 +234,7 @@ class customerController extends Controller
             'uname' => 'مقدم چاپ',
             'pass' => '22501792',
             'from' => '100020400',
-            'message' => "مجتمع تبلیغاتی چاپ مقدم\n" . $request->description,
+            'message' => $request->description,
             'to' => json_encode($rcpt_nm),
             'op' => 'send'
         );
