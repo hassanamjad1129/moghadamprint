@@ -625,7 +625,7 @@ class orderController extends Controller
 
     public function orders(Request $request)
     {
-        $orders = orderItem::where('verified', 1)->join('orders', 'orders.id', '=', 'order_items.order_id')->where('user_id', auth()->user()->id);
+        $orders = orderItem::where('order_items.verified', 1)->join('orders', 'orders.id', '=', 'order_items.order_id')->where('user_id', auth()->user()->id);
         if ($request->has('start')) {
             $startTime = CalendarUtils::createCarbonFromFormat('Y/m/d', $request->start)->toDateTimeString();
             $orders = $orders->where('orders.created_at', '>=', $startTime);
