@@ -114,6 +114,9 @@ Route::group(['prefix' => 'customer', 'namespace' => 'customer', 'middleware' =>
     //Route::post('/stateCity/sendMethod/ajax','stateCityController@sendMethodAjax')->name('customer.sendMethod.ajax');
     Route::post('/stateCity', 'stateCityController@store')->name('customer.orderStateCity.store');
     Route::get('/factor/{orderItem}', 'orderController@getFactor')->name('customer.orders.getFactor');
+
+
+    Route::get('reportOrders','orderController@orders')->name('customer.reportOrders');
 });
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'adminMiddleware'], function () {

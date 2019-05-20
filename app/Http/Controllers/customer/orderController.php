@@ -623,4 +623,19 @@ class orderController extends Controller
         return view('customer.factor', ['orderItem' => $orderItem]);
     }
 
+    public function orders(Request $request)
+    {
+        $orders = orderItem::where('verified', 1)->join('orders', 'orders.id', '=', 'order_items.order_id')->where('user_id', auth()->user()->id);
+        if ($request->has('start')) {
+            $startTime = CalendarUtils::createCarbonFromFormat('Y/m/d', $request->start)->toDateTimeString();
+            $orders = $orders->where('orders.created_at', '>=', $startTime);
+        }
+        if ($request->has('end')) {
+            $finishTime = CalendarUtils::createCarbonFromFormat('Y/m/d', $request->end)->addDays(1)->toDateTimeString();
+            $orders = $orders->where('orders.created_at', '<', $finishTime);
+        }
+        $orders = $orders->select(['order_items.*'])->get();
+        return view('customer.orders.index', ['orders' => $orders]);
+    }
+
 }

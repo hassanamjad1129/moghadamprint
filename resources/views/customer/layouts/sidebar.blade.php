@@ -18,16 +18,16 @@
         <span class="menuItemText col-sm-7">سفارشات</span>
         <i class="ion-arrow-down-b color4 menuItemArrowDown col-sm-2"></i>
     </a>
-        <div class="subMenuWrap" style="display: none;">
-            <a href="{{ route('customer.inCompleteOrders') }}" class="submenuItem">
-                <i class="ion-document submenuIcon color5"></i>
-                <p>سفارشات در حال انجام</p>
-            </a>
-            <a href="{{ route('customer.completedOrders') }}" class="submenuItem">
-                <i class="ion-document-text submenuIcon color6"></i>
-                <p>آرشیو سفارشات</p>
-            </a>
-        </div>
+    <div class="subMenuWrap" style="display: none;">
+        <a href="{{ route('customer.inCompleteOrders') }}" class="submenuItem">
+            <i class="ion-document submenuIcon color5"></i>
+            <p>سفارشات در حال انجام</p>
+        </a>
+        <a href="{{ route('customer.completedOrders') }}" class="submenuItem">
+            <i class="ion-document-text submenuIcon color6"></i>
+            <p>آرشیو سفارشات</p>
+        </a>
+    </div>
 </div>
 
 <div class="drawerItem">
@@ -95,6 +95,13 @@
     </a>
 </div>
 
+<div class="drawerItem">
+    <a class="drawerItemLink" href="{{ route('customer.reportOrders') }}">
+        <i class="ion-folder manuItemIcon color1 col-sm-3"></i>
+        <span class="menuItemText col-sm-7">گزارش سفارشات</span>
+    </a>
+</div>
+
 
 <div class="drawerItem">
     <a class="drawerItemLink" href="{{ route('customer.cart') }}">
@@ -111,15 +118,15 @@
 </div>
 -->
 <div class="drawerItem">
-    <a class="drawerItemLink" href="{{ url('tickets') }}" target = "_blank">
+    <a class="drawerItemLink" href="{{ url('tickets') }}" target="_blank">
         <i class="ion-ios-chatboxes manuItemIcon color3 col-sm-3"></i>
         <span class="menuItemText col-sm-7">تیکت و پشتیبانی </span>
     </a>
 </div>
 
-<div class="drawerItem" style = "margin-top : 2rem;">
-  <div class="drawerItem" style="justify-content : center; align-items : center ;">
-  <div id="pageTopLeftSide" class="animated fadeInUp">
+<div class="drawerItem" style="margin-top : 2rem;">
+    <div class="drawerItem" style="justify-content : center; align-items : center ;">
+        <div id="pageTopLeftSide" class="animated fadeInUp">
             <a href="{{$linkInstagram}}" target="_blank" class="topSocialItem insta">
                 <i class="ion-social-instagram"></i>
             </a>
@@ -127,6 +134,6 @@
                 <i class="ion-paper-airplane"></i>
             </a>
         </div>
-   </div>
+    </div>
 </div>
 
