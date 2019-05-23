@@ -112,7 +112,7 @@ $("body").on('change', "input[name=product]", function () {
             if (response.single_price || response.fast_single_price) result += ("<input type='radio' name='type' id='single' value='single' class='input-hidden' /><label for='single'><img src='/assets/img/single.jpg' /></label>");
             if (response.double_price || response.fast_double_price) result += "<input type='radio' name='type' id='double' value='double' class='input-hidden' /><label for='double' style='margin-right: 30px;'><img src='/assets/img/double.jpg' /></label>";
             result += "</div>";
-            result += "<div class='col-md-6 speed'><h3>سرعت چاپ</h3>" + (response.single_price|| response.double_price)?"<input type='radio' name='speed' id='normal' class='input-hidden' value='normal' /><label for='normal'><img src='/assets/img/normal.jpg' /></label>":"";
+            result += ("<div class='col-md-6 speed'><h3>سرعت چاپ</h3>" + ((response.single_price || response.double_price) ? ("<input type='radio' name='speed' id='normal' class='input-hidden' value='normal' /><label for='normal'><img src='/assets/img/normal.jpg' /></label>") : ""));
             if (response.fast_single_price || response.fast_double_price) result += "<input type='radio' name='speed' id='fast' class='input-hidden' value='fast' /><label for='fast' style='margin-right: 30px;'><img src='/assets/img/fast.jpg' /></label>";
             result += "</div>";
             $("#step-3 .extraOptions").html(result)
