@@ -21,6 +21,27 @@
             }
         }
     </style>
+    @if($welcome)
+        <div class="modal show" id="welcomeModal" role="dialog" style="background: rgba(0,0,0,.65);">
+            <div class="modal-dialog" style="width: 50%;margin:20px auto">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" onclick="closeWelcomeModal()" data-dismiss="modal"><i
+                                    class="ion-close-circled"></i></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="welcomeModalBody">
+                            <img src="{{ asset($popup) }}" alt="">
+                            <p>به وبسایت مجتمع تبلیغاتی مقدم خوش آمدید</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    @endif
 
 @endsection
 @section('content')

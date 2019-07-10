@@ -42,9 +42,11 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('layouts.app', function ($view) {
             $priceList = option::find('priceList')->option_value;
+            $popup = option::find('popup')->option_value;
             $linkInstagram = option::where('option_name', 'instagram')->first()->option_value;
             $linkTelegram = option::where('option_name', 'telegram')->first()->option_value;
             $view->with([
+                'popup' => $popup,
                 'priceList' => $priceList,
                 'linkInstagram' => $linkInstagram,
                 'linkTelegram' => $linkTelegram
