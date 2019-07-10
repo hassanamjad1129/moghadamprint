@@ -6,7 +6,7 @@
                 @csrf @foreach($options as $option)
                     <div class="col-md-6">
                         <h4>{{ $option->label }}</h4>
-                        <input {{ $option->option_name=='priceList' or $option->option_name=='popup'?'type=file':'type=text' }} class="form-control"
+                        <input {{ ($option->option_name=='priceList' or $option->option_name=='popup')?'type=file':'type=text' }} class="form-control"
                                name="{{ $option->option_name }}" value="{{ $option->option_value }}">
                     </div>
                 @endforeach
