@@ -190,6 +190,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::get('slideshows/{category}', 'slideshowController@management')->name('admin.slideshowManagement');
 
     Route::get('slideshows/{slide}/remove', 'slideshowController@remove')->name('admin.slideshow.remove');
+    Route::get('slideshows/{slide}/edit', 'slideshowController@edit')->name('admin.slideshow.edit');
+    Route::patch('slideshows/{slide}', 'slideshowController@update')->name('admin.slideshow.update');
 
     Route::get('slideshows/{category}/create', 'slideshowController@create')->name('admin.slideshow.create');
     Route::post('slideshows/{category}/create', 'slideshowController@store')->name('admin.slideshow.store');

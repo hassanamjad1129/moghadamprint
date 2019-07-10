@@ -23,7 +23,10 @@
             <tr>
                 <td>{{ $i++ }}</td>
                 <td><img src="{{ asset($slideshow->picture) }}" style="width:150px" alt=""></td>
-                <td><a class="btn btn-danger btn-sm" href="{{ route('admin.slideshow.remove',[$slideshow->id]) }}">حذف تصویر</a></td>
+                <td>
+                    <a class="btn btn-success btn-sm" href="{{ route('admin.slideshow.edit',[$slideshow->id]) }}">ویرایش</a>
+                    <a class="btn btn-danger btn-sm" href="{{ route('admin.slideshow.remove',[$slideshow->id]) }}">حذف تصویر</a>
+                </td>
             </tr>     
           @endforeach
         </tbody>

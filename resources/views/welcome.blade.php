@@ -29,7 +29,9 @@
             <div class="swiper-wrapper">
                 @foreach($slideshows as $slideshow)
                     <div class="swiper-slide">
-                        <img src="{{ asset($slideshow->picture) }}" alt="">
+                        <a href="{{ $slideshow->link }}">
+                            <img src="{{ asset($slideshow->picture) }}" alt="">
+                        </a>
                         <div class="sliderHalf">
                             <div class="ribbon-3  animated fadeInRightBig">
                                 <div class="ribbon3Inner">
