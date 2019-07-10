@@ -2,7 +2,7 @@
 @section('content')
     <section class="content">
         <h3>ویرایش اسلایدشو</h3>
-        <form action="{{ route('admin.slideshow.edit',[$slideshow]) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('admin.slideshow.update',[$slideshow]) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('patch')
             <div class="col-md-4">
