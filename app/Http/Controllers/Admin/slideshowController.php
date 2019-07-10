@@ -51,7 +51,8 @@ class slideshowController extends Controller
 
     public function update(slideshow $slide, Request $request)
     {
-        $slide->picture = $this->uploadFile($request->picture, 'slideshows', uniqid() . '.' . $request->picture->extension());
+        if ($request->picture)
+            $slide->picture = $this->uploadFile($request->picture, 'slideshows', uniqid() . '.' . $request->picture->extension());
         $slide->link = $request->link;
         $slide->save();
         return redirect(route('admin.slideshowManagement', [$slide->category_id]))->withErrors(['اسلایدشو با موفقیت افزوده شد'], 'success');
