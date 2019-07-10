@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\priceCategory;
 use Excel;
 use App\slideshow;
-use App\option; 
-  
+use App\option;
+
 class HomeController extends Controller
 {
 
@@ -18,8 +18,10 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $priceList=option::find('priceList')->option_value;
-        return view('home',['priceList'=>$priceList]);
+        $popup = option::find('popup')->option_value;
+
+        $priceList = option::find('priceList')->option_value;
+        return view('home', ['priceList' => $priceList, 'popup' => $popup]);
     }
 
     public function representations()
@@ -46,17 +48,13 @@ class HomeController extends Controller
     {
         return view('policies');
     }
-  
-  
-  
-  
-  
-  
+
+
     public function catalog()
     {
         return view('catPages.catalog');
     }
-  
+
     public function digitalMarketing()
     {
         return view('catPages.digitalMarketing');
@@ -66,28 +64,28 @@ class HomeController extends Controller
     {
         return view('catPages.envlope');
     }
-  
-   public function fantasy()
+
+    public function fantasy()
     {
         return view('catPages.fantasy');
     }
-  
+
     public function formatedforms()
     {
         return view('catPages.formatedforms');
     }
-  
-      public function genius()
+
+    public function genius()
     {
         return view('catPages.genius');
     }
-  
-     public function header()
+
+    public function header()
     {
         return view('catPages.header');
     }
- 
-  
+
+
     public function ledBoard()
     {
         return view('catPages.ledBoard');
@@ -102,44 +100,44 @@ class HomeController extends Controller
     {
         return view('catPages.poster');
     }
-  
-      public function promotionalGifts()
+
+    public function promotionalGifts()
     {
         return view('catPages.promotionalGifts');
     }
-  
+
     public function tracket()
     {
         return view('catPages.tracket');
     }
-  
-  
+
+
     public function visitCard()
     {
         return view('catPages.visitCard');
     }
-  
+
     public function riso()
     {
         return view('catPages.riso');
     }
-  
-    public function priceList($name){
-      $price = priceCategory::where('name',$name)->firstOrFail();
-      $table="<table class='table table-striped table-bordered'>";
-      Excel::load(public_path($price->fileObject->file), function ($reader) use (&$table){
-            $reader->each(function($sheet) use (&$table){
-                $table.="<tr>";
-                $sheet->each(function($row) use (&$table){
-                    $table.=("<td>".$row."</td>");
+
+    public function priceList($name)
+    {
+        $price = priceCategory::where('name', $name)->firstOrFail();
+        $table = "<table class='table table-striped table-bordered'>";
+        Excel::load(public_path($price->fileObject->file), function ($reader) use (&$table) {
+            $reader->each(function ($sheet) use (&$table) {
+                $table .= "<tr>";
+                $sheet->each(function ($row) use (&$table) {
+                    $table .= ("<td>" . $row . "</td>");
                 });
-                $table .="</tr>";
+                $table .= "</tr>";
             });
-      })->get();
-      $table.="</table>";
-      return view('priceList',['category'=>$price,'name'=>$name,'data'=>$table]); 
+        })->get();
+        $table .= "</table>";
+        return view('priceList', ['category' => $price, 'name' => $name, 'data' => $table]);
     }
-  
-  
-  
+
+
 }
