@@ -147,7 +147,7 @@
                 <tfoot>
                 <tr>
                     <td colspan="10">مجموع سفارشات : {{ $i-1 }}</td>
-                    <td colspan="4">مجموع سفارش: {{ number_format($sum) }}</td>
+                    <td colspan="4">مجموع سفارش: {{ number_format($sum) }} ریال</td>
                 </tr>
                 </tfoot>
             </table>
