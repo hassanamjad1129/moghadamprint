@@ -102,6 +102,10 @@
             color: #191919;
         }
 
+        article a:hover {
+            color: #FFF
+        }
+
         div.pp_default .pp_loaderIcon {
             display: none !important;
         }
@@ -114,7 +118,15 @@
                 @foreach($categories as $category)
                     <div class="col-md-3">
                         <a href="#"
-                           style="padding: 2rem;text-align: center;width: 100%;display: block">{{ $category->name }}</a>
+                           style="    padding: 2rem;
+    text-align: center;
+    width: 100%;
+    display: block;
+    background: #d60000;
+    color: #FFF;
+    border-radius: 10px;
+    margin-top: 2rem;font-size: 2rem
+">{{ $category->name }}</a>
                     </div>
                 @endforeach
 
