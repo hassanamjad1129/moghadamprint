@@ -15,6 +15,8 @@
                 <label for="">لینک اسلایدشو(غیر الزامی)</label>
                 <input type="text" name="link" id="" class="form-control"/>
             </div>
+            <div class="clearfix"></div>
+
             <button class="btn btn-success" style="margin-top:5px">بروزرسانی</button>
         </form>
     </section>
