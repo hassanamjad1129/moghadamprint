@@ -42,7 +42,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php $i = 1 ?>
+                <?php $i = 1;
+                $sum = 0;
+                ?>
                 @foreach($orders as $order)
                     <?php
                     ?>
@@ -88,6 +90,7 @@
                             echo number_format($price) . ' ریال';
                             ?>
                         </td>
+                        <?php $sum += $order->unit_price * $order->lats * $order->qty + $price; ?>
                         <td>{{ number_format($order->unit_price*$order->lats*$order->qty+$price) }} ریال</td>
                         <td>{{ $order->order->payment_method=='online'?"درگاه اینترنتی":"اعتباری" }}</td>
                         <td>
@@ -132,13 +135,21 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a href="{{ route('customer.order.detail',[$order->id]) }}" class="btn btn-success btn-sm">مشاهده
+                                <a href="{{ route('customer.order.detail',[$order->id]) }}"
+                                   class="btn btn-success btn-sm">مشاهده
                                     جزییات</a>
                             </div>
                         </td>
                     </tr>
+                    <?php $i++; ?>
                 @endforeach
                 </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="10">مجموع سفارشات : {{ $i-1 }}</td>
+                    <td colspan="4">مجموع سفارش: {{ number_format($sum) }}</td>
+                </tr>
+                </tfoot>
             </table>
         </div>
         <div class="clearfix"></div>
