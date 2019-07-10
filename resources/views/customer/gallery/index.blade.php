@@ -109,9 +109,12 @@
     <div class="body-wrapper">
         <div id="content" class="site-content">
             <article>
+                <h3>دسته بندی گالری</h3>
+                <br>
                 @foreach($categories as $category)
                     <div class="col-md-3">
-                        <a href="#" style="padding: 2rem;text-align: center;width: 100%;display: block">{{ $category->name }}</a>
+                        <a href="#"
+                           style="padding: 2rem;text-align: center;width: 100%;display: block">{{ $category->name }}</a>
                     </div>
                 @endforeach
 
