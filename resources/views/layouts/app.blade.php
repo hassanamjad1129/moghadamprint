@@ -250,9 +250,9 @@
     <div class="container" id="footerInner">
         <div id="copyRight">
             <span>© ۱۳۹۷ تمامی حقوق برای مجتمع تبلیغاتی مقدم محفوظ است . </span>
-            <a href="https://hugenet.ir">طراحی وبسایت</a>
+            <a href="http://hugenet.ir">طراحی وبسایت</a>
             <span>و اجرا توسط</span>
-            <a href="https://hugenet.ir/%D8%AA%D9%85%D8%A7%D8%B3-%D8%A8%D8%A7-%D9%85%D8%A7/">ایده پردازان تدبیر بنیان</a>
+            <a href="http://hugenet.ir/%D8%AA%D9%85%D8%A7%D8%B3-%D8%A8%D8%A7-%D9%85%D8%A7/">ایده پردازان تدبیر بنیان</a>
         </div>
         <div id="pageTopLeftSide" class="animated fadeInLeft">
             <a href="{{$linkInstagram}}" target="_blank" class="topSocialItem insta">
