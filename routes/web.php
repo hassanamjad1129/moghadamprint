@@ -11,6 +11,8 @@
 |
 */
 
+use App\option;
+
 Route::get('/', function (\Illuminate\Http\Request $request) {
     $welcome = 0;
     if (!$request->session()->has('welcome')) {
@@ -18,8 +20,9 @@ Route::get('/', function (\Illuminate\Http\Request $request) {
         $welcome = 1;
     }
     $slideshows = \App\slideshow::where('category_id', 15)->get();
+    $popup = option::find('popup')->option_value;
 
-    return view('welcome', ['welcome' => $welcome, 'slideshows' => $slideshows]);
+    return view('welcome', ['welcome' => $welcome, 'slideshows' => $slideshows, 'popup' => $popup]);
 });
 
 Route::post('/', function (\Illuminate\Http\Request $request) {
@@ -116,8 +119,8 @@ Route::group(['prefix' => 'customer', 'namespace' => 'customer', 'middleware' =>
     Route::get('/factor/{orderItem}', 'orderController@getFactor')->name('customer.orders.getFactor');
 
 
-    Route::get('reportOrders','orderController@orders')->name('customer.reportOrders');
-    Route::post('reportOrders','orderController@orders')->name('customer.reportOrders');
+    Route::get('reportOrders', 'orderController@orders')->name('customer.reportOrders');
+    Route::post('reportOrders', 'orderController@orders')->name('customer.reportOrders');
 });
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'adminMiddleware'], function () {

@@ -18,10 +18,9 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $popup = option::find('popup')->option_value;
 
         $priceList = option::find('priceList')->option_value;
-        return view('home', ['priceList' => $priceList, 'popup' => $popup]);
+        return view('home', ['priceList' => $priceList]);
     }
 
     public function representations()
