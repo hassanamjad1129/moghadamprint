@@ -117,7 +117,7 @@
                 <br>
                 @foreach($categories as $category)
                     <div class="col-md-3">
-                        <a href="#"
+                        <a href="{{ route('customer.gallery.pictures',[$category->id]) }}"
                            style="    padding: 2rem;
     text-align: center;
     width: 100%;
