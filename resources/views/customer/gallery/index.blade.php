@@ -113,7 +113,7 @@
     <div class="body-wrapper">
         <div id="content" class="site-content">
             <article>
-                <h3 style="text-align: center">دسته بندی گالری</h3>
+                <h2 style="text-align: center">دسته بندی گالری</h2>
                 <br>
                 @foreach($categories as $category)
                     <div class="col-md-3">
