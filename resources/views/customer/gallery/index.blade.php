@@ -109,113 +109,13 @@
     <div class="body-wrapper">
         <div id="content" class="site-content">
             <article>
-                <div class="content-1330 center-relative">
-                    <div class="clear"></div>
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
-                    <div class="button-group filters-button-group">
-                        <div class="button is-checked" data-filter="*">همه</div>
-                        @foreach($categories as $category)
-                            <div class="col-md-3">
-                                <a href="#" style="padding: 2rem">{{ $category->name }}</a>
-                            </div>
-                        @endforeach
+                @foreach($categories as $category)
+                    <div class="col-md-3">
+                        <a href="#" style="padding: 2rem">{{ $category->name }}</a>
                     </div>
+                @endforeach
 
-                    <div class="clear"></div>
-                </div>
             </article>
         </div>
     </div>
-@endsection
-@section('extraScripts')
-    <script src='/assets/js/jquery.fitvids.js'></script>
-    <script src='/assets/js/jquery.smartmenus.min.js'></script>
-    <script src='/assets/js/imagesloaded.pkgd.js'></script>
-    <script src='/assets/js/isotope.pkgd.js'></script>
-    <script src='/assets/js/jquery.carouFredSel-6.0.0-packed.js'></script>
-    <script src='/assets/js/jquery.mousewheel.min.js'></script>
-    <script src='/assets/js/jquery.touchSwipe.min.js'></script>
-    <script src='/assets/js/jquery.easing.1.3.js'></script>
-    <script src='/assets/js/jquery.prettyPhoto.js'></script>
-    <script src='/assets/js/jquery.ba-throttle-debounce.min.js'></script>
-    <script>
-        //Portfolio
-
-        var grid = jQuery('.grid').imagesLoaded(function () {
-            grid.isotope({
-                itemSelector: '.grid-item',
-                masonry: {
-                    columnWidth: '.grid-sizer'
-                }
-            });
-
-            // bind filter button click
-            jQuery('.filters-button-group').on('click', '.button', function () {
-                var filterValue = jQuery(this).attr('data-filter');
-                grid.isotope({filter: filterValue});
-                grid.on('arrangeComplete', function () {
-                    jQuery(".grid-item:visible a[rel^='prettyPhoto']").prettyPhoto({
-                        slideshow: false, /* false OR interval time in ms */
-                        overlay_gallery: false, /* If set to true, a gallery will overlay the fullscreen image on mouse over */
-                        default_width: 1280,
-                        default_height: 720,
-                        deeplinking: false,
-                        social_tools: false,
-                        iframe_markup: '<iframe src ="{path}" width="{width}" height="{height}" frameborder="no" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>',
-                        changepicturecallback: function () {
-                            if (!is_touch_device()) {
-                                var ua = navigator.userAgent.toLowerCase();
-                                if (!(ua.indexOf("safari/") !== -1 && ua.indexOf("windows") !== -1 && ua.indexOf("chrom") === -1)) {
-                                    jQuery("html").getNiceScroll().remove();
-                                    jQuery("html").css("cssText", "overflow: hidden !important");
-                                }
-                            }
-                        },
-                        callback: function () {
-                            if (!is_touch_device()) {
-                                var ua = navigator.userAgent.toLowerCase();
-                                if (!(ua.indexOf("safari/") !== -1 && ua.indexOf("windows") !== -1 && ua.indexOf("chrom") === -1)) {
-                                    jQuery("html").niceScroll({
-                                        cursorcolor: "#b1b1b1",
-                                        scrollspeed: 100,
-                                        mousescrollstep: 80,
-                                        cursorwidth: "12px",
-                                        cursorborder: "none",
-                                        cursorborderradius: "0px"
-                                    });
-                                }
-                            }
-                        }
-                    });
-
-                });
-            });
-
-
-            // change is-checked class on buttons
-            jQuery('.button-group').each(function (i, buttonGroup) {
-                var $buttonGroup = jQuery(buttonGroup);
-                $buttonGroup.on('click', '.button', function () {
-                    $buttonGroup.find('.is-checked').removeClass('is-checked');
-                    jQuery(this).addClass('is-checked');
-                });
-            });
-
-
-            //Fix for portfolio item text
-            jQuery('.portfolio-text-holder').each(function () {
-                jQuery(this).find('p').css('margin-top', jQuery(this).height() / 2);
-            });
-
-            //Fix for portfolio hover text fade in/out
-            jQuery('.grid-item a').hover(function () {
-                jQuery(this).find('.portfolio-text-holder').fadeIn('fast');
-            }, function () {
-                jQuery(this).find('.portfolio-text-holder').fadeOut('fast');
-            });
-        });
-
-
-    </script>
 @endsection
