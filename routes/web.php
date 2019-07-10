@@ -98,6 +98,7 @@ Route::group(['prefix' => 'customer', 'namespace' => 'customer', 'middleware' =>
     Route::get('order/{order}/detail', 'orderController@orderDetail')->name('customer.order.detail');
 
     Route::get('downloads/', 'downloadController@index')->name('customer.downloads');
+    Route::get('downloads/{category}', 'downloadController@files')->name('customer.files');
     Route::get('/downloads/file/{download}', 'downloadController@downloadFile')->name('customer.downloads.file');
 
     Route::get('gallery', 'galleryController@index')->name('customer.galleries');

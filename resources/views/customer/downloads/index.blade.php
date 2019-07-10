@@ -1,32 +1,26 @@
 @extends('customer.layouts.master')
 @section('content')
-    <div id="downloads">
-        @foreach($downloads as $download)
-            <div class="downloadItem">
-                <div class="downloadRowOne">
-                    <div class="downloadRowOneRightSide">
-                        <img src="{{ asset($download->icon) }}" alt="{{ $download->title }}">
+    <div class="body-wrapper">
+        <div id="content" class="site-content">
+            <article>
+                <h2 style="text-align: center">دسته بندی دانلودها</h2>
+                <br>
+                @foreach($categories as $category)
+                    <div class="col-md-3">
+                        <a href="{{ route('customer.files',[$category->id]) }}"
+                           style="    padding: 2rem;
+    text-align: center;
+    width: 100%;
+    display: block;
+    background: #d60000;
+    color: #FFF;
+    border-radius: 10px;
+    margin-top: 2rem;font-size: 2rem
+">{{ $category->name }}</a>
                     </div>
-                    <div class="downloadRowOneLeftSide">
-                        <p class="downloadTitle">{{ $download->title }}</p>
-                    </div>
-                </div>
-                <p class="downloadDescription">{{ $download->description }}</p>
-                <p class="downloadDots">...</p>
-                <div class="downloadRowTwo">
-                    <div class="downloadCat">
-                        <span>دسته بندی :</span>
-                        <a href="#" class="downloadCatLink">{{ $download->category->name }}</a>
-                    </div>
-                    <div class="downloadBtnDiv">
-                        <a href="{{ route("customer.downloads.file",[$download]) }}" target="_blank"
-                           class="downloadBtn">
-                            <i class="ion-android-download"></i>
-                            <span>دانلود</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        @endforeach
+                @endforeach
+
+            </article>
+        </div>
     </div>
 @endsection
