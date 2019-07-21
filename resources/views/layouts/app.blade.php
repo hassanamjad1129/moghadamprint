@@ -256,7 +256,7 @@
     <div class="container" id="footerInner">
         <div id="copyRight">
             <span>© ۱۳۹۷ تمامی حقوق برای مجتمع تبلیغاتی مقدم محفوظ است . </span>
-            <a href="http://hugenet.ir">طراحی سایت چاپخانه</a>
+            <a href="http://hugenet.ir/%d8%b7%d8%b1%d8%a7%d8%ad%db%8c-%d8%b3%d8%a7%db%8c%d8%aa-%da%86%d8%a7%d9%be%d8%ae%d8%a7%d9%86%d9%87/">طراحی سایت چاپخانه</a>
             <span>و اجرا توسط</span>
             <a href="http://hugenet.ir/contact/">Hugenet</a>
         </div>
